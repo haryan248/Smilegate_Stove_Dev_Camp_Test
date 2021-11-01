@@ -39,6 +39,7 @@ export default {
         }
     },
     methods: {
+        // 블로그 게시물 등록
         async postBlogData() {
             let replaceId = 0;
             await this.$axios
@@ -61,6 +62,8 @@ export default {
                 });
             this.$router.replace(`/blog/detail/${replaceId}`);
         },
+
+        // 블로그 게시물 수정
         updateBlogData() {
             this.$axios
                 .post(
