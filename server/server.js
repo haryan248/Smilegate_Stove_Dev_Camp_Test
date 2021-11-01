@@ -16,7 +16,7 @@ const corsOptions = {
 
 app.use(cors(corsOptions)); // 옵션을 추가한 CORS 미들웨어 추가
 
-// 블로그 글 등록, 조회 API
+// 블로그 글 등록, 조회, 삭제, 수정 API
 // 글 목록 조회
 app.get("/blog", function (req, res) {
     res.send(BlogPost);
@@ -74,18 +74,56 @@ app.delete("/blog/:blogContentId", function (req, res) {
     res.json({ message: "OK" });
 });
 
-// 댓글 등록, 조회 API
-// app.get("/blog", function (req, res) {
-//     res.send(BlogPost);
-// });
+// 댓글 등록, 조회, 수정, 삭제 API
+// 댓글 조회
+app.get("/blog/:blogContentId/comment", function (req, res) {
+    const blogContentId = Number(req.params.blogContentId);
+    const result = Comment.filter((commentItem) => commentItem.content_id === blogContentId);
+    res.json({ message: "OK", data: result });
+});
 
-// app.get("/blog/:blogId", function (req, res) {
-//     const blogId = Number(req.params.blogId);
-//     const result = BlogPost.filter((blogItem) => {
-//         if (blogItem.id === blogId) return blogItem;
-//     });
-//     res.send(...result);
-// });
+// 댓글 등록
+app.post("/blog/:blogContentId/comment", function (req, res) {
+    const userId = req.query.user_id;
+    const blogContentId = Number(req.params.blogContentId);
+    const commentText = req.query.commentText;
+    const commentId = +new Date();
+
+    Comment.push({
+        comment_id: commentId,
+        content_id: blogContentId,
+        user_id: userId,
+        text: commentText,
+        created_at: new Date(),
+        updated_at: null,
+    });
+    res.json({ message: "OK", data: Comment });
+});
+
+// 댓글 수정
+app.post("/blog/:blogContentId/update-comment/:commentId", function (req, res) {
+    const commentId = Number(req.params.commentId);
+    const commentText = req.query.commentText;
+
+    Comment.forEach((commentItem) => {
+        if (commentItem.comment_id === commentId) {
+            console.log(commentItem);
+            commentItem.text = commentText;
+            commentItem.updated_at = new Date();
+        } else return;
+    });
+
+    res.json({ message: "OK", data: Comment });
+});
+
+// 댓글 삭제
+app.delete("/blog/:blogContentId/comment/:deleteCommentId", function (req, res) {
+    // const blogContentId = Number(req.params.blogContentId);
+    const deleteCommentId = Number(req.params.deleteCommentId);
+    const deleteIndex = Comment.findIndex((blogItem) => blogItem.comment_id === deleteCommentId);
+    Comment.splice(deleteIndex, 1);
+    res.json({ message: "OK" });
+});
 
 app.listen(3000, () => {
     console.log("Server is on!");
