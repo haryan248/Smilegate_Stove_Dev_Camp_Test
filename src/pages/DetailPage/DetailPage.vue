@@ -8,41 +8,36 @@
 
         <div>
             <div>{{ blogContent.commentCount }} 개의 댓글</div>
-            <div>
-                <input type="text" placeholder="댓글을 남겨보세요." v-model="commentText" />
-                <button @click="registerComment">댓글 등록</button>
-            </div>
             <div>댓글 목록</div>
             <div>
-                <div v-for="blogComment in blogCommentList" :key="blogComment.comment_id">
-                    <div v-if="blogComment.isUpdate">
-                        <input type="text" v-model="updateCommentText" />
-                        <button @click="updateComment(blogComment.comment_id)">수정 완료</button>
-                        <button @click="toggleUpdateComment(blogComment.comment_id)">취소</button>
-                    </div>
-                    <div v-else>{{ blogComment.text }}</div>
-                    <button @click="toggleUpdateComment(blogComment.comment_id, blogComment.text)">댓글 수정</button>
-                    <button>답글 달기</button>
-                    <button @click="deleteComment(blogComment.comment_id)">댓글 삭제</button>
-                </div>
+                <CommentList
+                    :blogCommentList="blogCommentList"
+                    :blogSubCommentList="blogSubCommentList"
+                    :getBlogComment="getBlogComment"
+                    :getBlogDetail="getBlogDetail"
+                    :blogContentId="blogContentId"
+                />
             </div>
         </div>
     </div>
 </template>
 
 <script>
+import CommentList from "../../components/Comment/CommentList/CommentList.vue";
 export default {
     name: "DetailPage",
     data() {
         return {
-            blogContentId: Number(this.$route.params.blogContentId),
+            blogContentId: this.$route.params.blogContentId,
             blogContent: {},
             blogCommentList: {},
-            commentText: "",
+            blogSubCommentList: {},
             updateCommentText: "",
         };
     },
-
+    components: {
+        CommentList,
+    },
     mounted() {
         this.getBlogDetail();
         this.getBlogComment();
@@ -52,8 +47,8 @@ export default {
         async getBlogDetail() {
             await this.$axios
                 .get(`http://localhost:3000/blog/${this.blogContentId}`)
-                .then((res) => {
-                    this.blogContent = res.data;
+                .then(({ data }) => {
+                    this.blogContent = data;
                 })
                 .catch((error) => {
                     console.log(error.response);
@@ -63,10 +58,9 @@ export default {
         async getBlogComment() {
             await this.$axios
                 .get(`http://localhost:3000/blog/${this.blogContentId}/comment`)
-                .then((res) => {
-                    this.blogCommentList = [...res.data.data].map((data) => {
-                        return { ...data, isUpdate: false };
-                    });
+                .then(({ data }) => {
+                    this.blogCommentList = data.data.comment_result;
+                    this.blogSubCommentList = data.data.sub_comment_result;
                 })
                 .catch((error) => {
                     console.log(error.response);
@@ -86,63 +80,6 @@ export default {
                 console.log(error.response);
             });
             this.$router.push("/");
-        },
-
-        // 댓글 등록하기
-        async registerComment() {
-            await this.$axios
-                .post(
-                    `http://localhost:3000/blog/${this.blogContentId}/comment`,
-                    {},
-                    {
-                        params: {
-                            userId: 1,
-                            commentText: this.commentText,
-                        },
-                    }
-                )
-                .catch((error) => {
-                    console.log(error.response);
-                });
-            this.getBlogComment();
-            this.commentText = "";
-        },
-
-        // 업데이트 토글 메소드
-        toggleUpdateComment(commentId, commentText) {
-            this.updateCommentText = commentText;
-            [...this.blogCommentList].forEach((comment) => {
-                if (comment.comment_id === commentId) {
-                    comment.isUpdate = !comment.isUpdate;
-                }
-            });
-        },
-
-        // 댓글 수정
-        async updateComment(commentId) {
-            await this.$axios
-                .post(
-                    `http://localhost:3000/blog/${this.blogContentId}/update-comment/${commentId}`,
-                    {},
-                    {
-                        params: {
-                            commentText: this.updateCommentText,
-                        },
-                    }
-                )
-                .catch((error) => {
-                    console.log(error.response);
-                });
-            this.getBlogComment();
-            this.toggleUpdateComment();
-        },
-
-        // 댓글 삭제하기
-        async deleteComment(deleteCommentId) {
-            await this.$axios.delete(`http://localhost:3000/blog/${this.blogContentId}/comment/${deleteCommentId}`).catch((error) => {
-                console.log(error.response);
-            });
-            this.getBlogComment();
         },
     },
 };
