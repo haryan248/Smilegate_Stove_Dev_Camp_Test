@@ -14,24 +14,22 @@
     </div>
 </template>
 <script>
+import { createNamespacedHelpers } from "vuex";
+const postHelper = createNamespacedHelpers("postStore");
+
 export default {
     name: "HomePage",
     data() {
-        return {
-            blogPosts: [],
-        };
+        return {};
     },
-    async mounted() {
-        await this.$axios
-            .get("http://localhost:3000/blog")
-            .then((res) => {
-                this.blogPosts = res.data;
-            })
-            .catch((error) => {
-                console.log(error.response);
-            });
+    mounted() {
+        this.getBlogPostData();
+    },
+    computed: {
+        ...postHelper.mapState({ blogPosts: (state) => state.blogPosts }),
     },
     methods: {
+        ...postHelper.mapActions(["getBlogPostData"]),
         goToDetailPage(blogPost) {
             this.$router.push({
                 path: `/blog/detail/${blogPost.content_id}`,
