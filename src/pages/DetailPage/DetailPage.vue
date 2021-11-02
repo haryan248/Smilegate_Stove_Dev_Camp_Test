@@ -3,8 +3,8 @@
         <div>제목 : {{ blogContent.title }}</div>
         <div>본문 : {{ blogContent.description }}</div>
         <div>등록일 : {{ blogContent.created_at }}</div>
-        <button @click="updateBlogPost">글 수정하기</button>
-        <button @click="deleteBlogPost">글 삭제하기</button>
+        <button @click="updateBlogPost(blogContentId)">글 수정하기</button>
+        <button @click="deleteBlogPost(blogContentId)">글 삭제하기</button>
 
         <div>
             <div>{{ blogContent.commentCount }} 개의 댓글</div>
@@ -24,63 +24,34 @@
 
 <script>
 import CommentList from "../../components/Comment/CommentList/CommentList.vue";
+import { createNamespacedHelpers } from "vuex";
+const postHelper = createNamespacedHelpers("postStore");
+
 export default {
     name: "DetailPage",
     data() {
         return {
             blogContentId: this.$route.params.blogContentId,
-            blogContent: {},
-            blogCommentList: {},
-            blogSubCommentList: {},
-            updateCommentText: "",
         };
     },
     components: {
         CommentList,
     },
     mounted() {
-        this.getBlogDetail();
-        this.getBlogComment();
+        this.getBlogDetail(this.blogContentId);
+        this.getBlogComment(this.blogContentId);
     },
-
+    computed: {
+        ...postHelper.mapState({
+            blogContent: (state) => state.blogContent,
+            blogCommentList: (state) => state.blogCommentList,
+            blogSubCommentList: (state) => state.blogSubCommentList,
+            updateCommentText: (state) => state.updateCommentText,
+        }),
+    },
     methods: {
-        async getBlogDetail() {
-            await this.$axios
-                .get(`http://localhost:3000/blog/${this.blogContentId}`)
-                .then(({ data }) => {
-                    this.blogContent = data;
-                })
-                .catch((error) => {
-                    console.log(error.response);
-                });
-        },
-
-        async getBlogComment() {
-            await this.$axios
-                .get(`http://localhost:3000/blog/${this.blogContentId}/comment`)
-                .then(({ data }) => {
-                    this.blogCommentList = data.data.comment_result;
-                    this.blogSubCommentList = data.data.sub_comment_result;
-                })
-                .catch((error) => {
-                    console.log(error.response);
-                });
-        },
-
-        // 글 수정하기
-        updateBlogPost() {
-            this.$router.push({
-                path: `/blog/write/${this.blogContentId}`,
-            });
-        },
-
-        // 글 삭제하기
-        deleteBlogPost() {
-            this.$axios.delete(`http://localhost:3000/blog/${this.blogContentId}`).catch((error) => {
-                console.log(error.response);
-            });
-            this.$router.push("/");
-        },
+        ...postHelper.mapMutations(["updateBlogPost"]),
+        ...postHelper.mapActions(["getBlogDetail", "getBlogComment", "deleteBlogPost"]),
     },
 };
 </script>

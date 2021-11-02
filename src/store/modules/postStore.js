@@ -8,15 +8,27 @@ const postStore = {
         blogPosts: [],
         blogTitle: "",
         blogDescription: "",
+        blogContent: {},
+        blogCommentList: {},
+        blogSubCommentList: {},
+        updateCommentText: "",
     },
     getters: {},
     mutations: {
+        // v-model data 관리
         updateBlogTitle(state, payload) {
             state.blogTitle = payload;
         },
 
         updateBlogDescription(state, payload) {
             state.blogDescription = payload;
+        },
+
+        // 글 수정하기
+        updateBlogPost(_, blogContentId) {
+            router.push({
+                path: `/blog/write/${blogContentId}`,
+            });
         },
     },
     actions: {
@@ -31,6 +43,7 @@ const postStore = {
                     console.log(error.response);
                 });
         },
+
         // 수정할 게시글 데이터 가져오기
         async getBlogWriteData({ state }, blogContentId) {
             await axios
@@ -44,6 +57,7 @@ const postStore = {
                     console.log(error.response);
                 });
         },
+
         // 블로그 게시물 수정
         async updateBlogData({ state }, blogContentId) {
             await axios
@@ -62,12 +76,11 @@ const postStore = {
                 .catch((error) => {
                     console.log(error.response);
                 });
-            // this.$router.replace(`/blog/detail/${blogContentId}`);
         },
 
         // 블로그 게시물 등록
         async postBlogData({ state }) {
-            let replaceId = 0;
+            let replaceId = "";
             await axios
                 .post(
                     `${API_SERVER_URL}/blog`,
@@ -87,7 +100,41 @@ const postStore = {
                 .catch((error) => {
                     console.log(error.response);
                 });
-            // this.$router.replace(`/blog/detail/${replaceId}`);
+        },
+
+        // 상세 페이지 불러오기
+        async getBlogDetail({ state }, blogContentId) {
+            await axios
+                .get(`${API_SERVER_URL}/blog/${blogContentId}`)
+                .then(({ data }) => {
+                    state.blogContent = data;
+                })
+                .catch((error) => {
+                    console.log(error.response);
+                });
+        },
+
+        // 게시물 댓글 불러오기
+        async getBlogComment({ state }, blogContentId) {
+            await axios
+                .get(`${API_SERVER_URL}/blog/${blogContentId}/comment`)
+                .then(({ data }) => {
+                    state.blogCommentList = data.data.comment_result;
+                    state.blogSubCommentList = data.data.sub_comment_result;
+                })
+                .catch((error) => {
+                    console.log(error.response);
+                });
+        },
+
+        // 글 삭제하기
+        deleteBlogPost(_, blogContentId) {
+            axios
+                .delete(`${API_SERVER_URL}/blog/${blogContentId}`)
+                .then(() => router.push("/"))
+                .catch((error) => {
+                    console.log(error.response);
+                });
         },
     },
 };
