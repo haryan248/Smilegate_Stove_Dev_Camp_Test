@@ -28,7 +28,6 @@ const countCommentList = (blogContentId) => {
         Comment.filter((commentItem) => commentItem.content_id === blogContentId).length +
         SubComment.filter((subCommentItem) => subCommentItem.content_id === blogContentId).length;
 
-    console.log(blogContentId, totalComment);
     BlogPost.forEach((blogItem) => {
         if (blogItem.content_id === blogContentId) {
             blogItem.commentCount = totalComment;
@@ -51,7 +50,7 @@ app.post("/blog", function (req, res) {
     const userId = req.query.user_id;
     const title = req.query.title;
     const description = req.query.description;
-    const contentId = +new Date();
+    const contentId = String(+new Date());
 
     BlogPost.push({
         user_id: userId,
@@ -96,6 +95,8 @@ app.get("/blog/:blogContentId/comment", function (req, res) {
     const blogContentId = req.params.blogContentId;
     const comment_result = Comment.filter((commentItem) => commentItem.content_id === blogContentId);
     const sub_comment_result = SubComment.filter((subCommentItem) => subCommentItem.content_id === blogContentId);
+    console.log(sub_comment_result);
+
     res.json({ message: "OK", data: { comment_result, sub_comment_result } });
 });
 
@@ -106,7 +107,7 @@ app.post("/blog/:blogContentId/comment/:blogCommentId?", function (req, res) {
     const blogCommentId = req.params.blogCommentId;
     const commentText = req.query.commentText;
     const subCommentId = "sub" + +new Date();
-    const commentId = +new Date();
+    const commentId = String(+new Date());
 
     if (blogCommentId) {
         SubComment.push({
@@ -128,7 +129,6 @@ app.post("/blog/:blogContentId/comment/:blogCommentId?", function (req, res) {
             updated_at: null,
         });
     }
-
     countCommentList(blogContentId);
 
     res.json({ message: "OK" });
