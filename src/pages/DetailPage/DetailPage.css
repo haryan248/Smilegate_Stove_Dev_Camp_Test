@@ -10,12 +10,10 @@
     font-size: 3rem;
     font-family: Apple SD Gothic NeoEB;
 }
-.DetailPage-content--container {
-}
 .DetailPage-management {
     display: flex;
     flex-direction: row;
-    justify-content: right;
+    justify-content: space-between;
     margin-bottom: 2rem;
 }
 .DetailPage-create__date {
@@ -27,6 +25,7 @@
     cursor: pointer;
     border: none;
     margin-right: 0.5rem;
+    cursor: pointer;
 }
 
 .DetailPage-description {

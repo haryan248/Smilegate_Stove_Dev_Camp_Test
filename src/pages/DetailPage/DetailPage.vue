@@ -5,8 +5,10 @@
         <div class="DetailPage-content--container">
             <div class="DetailPage-management">
                 <div class="DetailPage-create__date">{{ blogContent.created_at }}</div>
-                <button class="DetailPage-modify__button" @click="updateBlogPost(blogContentId)">수정하기</button>
-                <button class="DetailPage-delete__button" @click="deleteBlogPost(blogContentId)">삭제하기</button>
+                <div>
+                    <button class="DetailPage-modify__button" @click="updateBlogPost(blogContentId)">수정</button>
+                    <button class="DetailPage-delete__button" @click="deleteBlogPost(blogContentId)">삭제</button>
+                </div>
             </div>
             <div class="DetailPage-description" v-html="blogContent.description"></div>
         </div>
