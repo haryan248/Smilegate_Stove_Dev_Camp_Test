@@ -25,6 +25,10 @@ const commentStore = {
             state.subCommentText = payload;
         },
 
+        modifyInitialUpdateCommentText(state, payload) {
+            state.updateCommentText = payload;
+        },
+
         // 토글 mutation
         toggleUpdateComment(state, blogCommentId) {
             state.blogCommentList.forEach((blogCommentItem) => {

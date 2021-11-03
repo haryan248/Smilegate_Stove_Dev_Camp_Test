@@ -21,7 +21,7 @@
         <div v-else class="CommentCreate-comment__input--container">
             <input class="CommentCreate-comment__input" type="text" v-model="updateCommentTextValue" />
             <button
-                class="CommentCreate-subcomment__button CommentCreate-button"
+                class="CommentCreate-comment__button CommentCreate-button"
                 @click="isSubComment ? updateSubComment({ blogContentId, blogCommentId }) : updateComment({ blogContentId, blogCommentId })"
             >
                 수정 완료
@@ -50,9 +50,10 @@ export default {
         blogContentId: String,
     },
     data() {
-        return {
-            updateCommentText_: this.blogCommentText,
-        };
+        return {};
+    },
+    created() {
+        this.modifyInitialUpdateCommentText(this.blogCommentText);
     },
     computed: {
         ...commentHelper.mapState({
@@ -81,7 +82,7 @@ export default {
 
         updateCommentTextValue: {
             get() {
-                return this.updateCommentText_;
+                return this.updateCommentText;
             },
             set(value) {
                 this.modifyUpdateCommentText(value);
@@ -91,6 +92,7 @@ export default {
     methods: {
         ...postHelper.mapActions(["getBlogDetail"]),
         ...commentHelper.mapMutations([
+            "modifyInitialUpdateCommentText",
             "modifyCommentText",
             "modifyUpdateCommentText",
             "modifyUpdateSubCommentText",
