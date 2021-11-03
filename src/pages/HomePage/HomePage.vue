@@ -1,15 +1,24 @@
 <template>
-    <div>
-        <button>
-            <router-link to="/blog/write">글 등록하기</router-link>
-        </button>
+    <div class="HomePage-container">
+        <div class="HomePage-my-profile">
+            <div class="HomePage-profile-image">하현준</div>
+            <div class="HomePage-profile-detail">
+                <div class="HomePage-profile-name">하현준</div>
+                <div class="HomePage-profile-text">STOVE DEV CAMP 2기 Client(Web) 분야에 지원했습니다.</div>
+            </div>
+        </div>
         <div v-if="blogPosts.length === 0">등록된 블로그 글이 없습니다.</div>
-        <div v-for="blogPost in blogPosts" :key="blogPost.content_id" @click="goToDetailPage(blogPost)">
-            <div>제목 : {{ blogPost.title }}</div>
-            <div>본문 : {{ blogPost.description }}</div>
-            <div>등록일 : {{ blogPost.created_at }}</div>
-            <div>댓글 : {{ blogPost.commentCount }} 개</div>
-            <hr />
+        <div class="HomePage-post__list--container">
+            <div class="HomePage-post__list" v-for="blogPost in blogPosts" :key="blogPost.content_id" @click="goToDetailPage(blogPost)">
+                <div>
+                    <div class="HomePage-post__list-item--title">{{ blogPost.title }}</div>
+                    <div class="HomePage-post__list-item--text">{{ blogPost.description }}</div>
+                    <div class="HomePage-post__list-item--status">
+                        <div class="HomePage-post__list-item--register-date">{{ blogPost.created_at }}</div>
+                        <div class="HomePage-post__list-item--comment">{{ blogPost.commentCount }} 개의 댓글</div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
