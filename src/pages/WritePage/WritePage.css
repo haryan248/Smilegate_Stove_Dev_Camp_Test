@@ -1,0 +1,59 @@
+.WritePage-container {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    margin: auto;
+    margin-top: calc(5rem + 80px);
+    box-sizing: border-box;
+}
+.WritePage-title,
+.WritePage-main__text {
+    text-align: left;
+    text-align: left;
+    font-family: "Apple SD Gothic NeoM";
+    font-size: 1.5rem;
+}
+
+.WritePage-title--input {
+    font-weight: 300;
+    font-size: 16px;
+    width: 100%;
+    line-height: 30px;
+    padding: 1rem;
+    margin-top: 1rem;
+    border-radius: 10px;
+    border: solid 1px #ddd;
+}
+.WritePage-main__section {
+    margin-top: 2rem;
+}
+.WritePage-main__text--textarea {
+    height: 210px;
+    font-weight: 300;
+    font-size: 16px;
+    color: #333;
+    font-style: normal;
+    width: 100%;
+    line-height: 26px;
+    padding: 1rem;
+    margin-top: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+}
+.WritePage-title--input:focus,
+.WritePage-main__text--textarea:focus {
+    border-color: #ff5000;
+    font-weight: 300;
+    outline: none;
+}
+.WritePage-register__button {
+    padding: 1.2rem 1.7rem 1.2rem 1.7rem;
+    margin-top: 1rem;
+    border-radius: 10px;
+    border: solid 1px #000;
+    background-color: #333;
+    color: white;
+    font-size: 1.125rem;
+    font-family: "Apple SD Gothic NeoEB";
+    cursor: pointer;
+}

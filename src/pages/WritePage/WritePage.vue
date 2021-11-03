@@ -1,15 +1,18 @@
 <template>
     <div>
-        <div>
-            제목
-            <input type="text" v-model="blogTitleValue" />
+        <div class="WritePage-container">
+            <div>
+                <p class="WritePage-title">제목</p>
+                <input class="WritePage-title--input" placeholder="제목을 입력해주세요." type="text" v-model="blogTitleValue" />
+            </div>
+            <div class="WritePage-main__section">
+                <p class="WritePage-main__text">본문</p>
+                <textarea class="WritePage-main__text--textarea" placeholder="내용을 입력해주세요." v-model="blogDescriptionValue" />
+            </div>
         </div>
-        <div>
-            본문
-            <input type="text" v-model="blogDescriptionValue" />
-        </div>
-
-        <button @click="isUpdate ? updateBlogData(blogContentId) : postBlogData()">{{ isUpdate ? "글 수정하기" : "글 등록하기" }}</button>
+        <button class="WritePage-register__button" @click="isUpdate ? updateBlogData(blogContentId) : postBlogData()">
+            {{ isUpdate ? "글 수정하기" : "글 등록하기" }}
+        </button>
     </div>
 </template>
 <script>
