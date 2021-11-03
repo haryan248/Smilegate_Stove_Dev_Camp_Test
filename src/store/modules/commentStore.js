@@ -65,40 +65,6 @@ const commentStore = {
                 });
         },
 
-        // 댓글 삭제하기
-        async deleteComment({ dispatch }, { blogContentId, deleteCommentId }) {
-            await axios
-                .delete(`${API_SERVER_URL}/blog/${blogContentId}/comment`, {
-                    params: {
-                        deleteCommentId: deleteCommentId,
-                    },
-                })
-                .then(() => {
-                    dispatch("getBlogComment", blogContentId);
-                    dispatch("postStore/getBlogDetail", blogContentId, { root: true });
-                })
-                .catch((error) => {
-                    console.log(error.response);
-                });
-        },
-
-        // 답글 삭제하기
-        async deleteSubComment({ dispatch }, { blogContentId, deleteSubCommentId }) {
-            await axios
-                .delete(`${API_SERVER_URL}/blog/${blogContentId}/comment`, {
-                    params: {
-                        deleteSubCommentId: deleteSubCommentId,
-                    },
-                })
-                .then(() => {
-                    dispatch("getBlogComment", blogContentId);
-                    dispatch("postStore/getBlogDetail", blogContentId, { root: true });
-                })
-                .catch((error) => {
-                    console.log(error.response);
-                });
-        },
-
         // 댓글 등록
         async registerComment({ state, dispatch }, blogContentId) {
             await axios
@@ -121,6 +87,44 @@ const commentStore = {
                 });
 
             state.commentText = "";
+        },
+
+        // 댓글 수정
+        async updateComment({ state, dispatch, commit }, { blogContentId, blogCommentId }) {
+            await axios
+                .post(
+                    `${API_SERVER_URL}/blog/${blogContentId}/update-comment/${blogCommentId}`,
+                    {},
+                    {
+                        params: {
+                            commentText: state.updateCommentText,
+                        },
+                    }
+                )
+                .then(() => {
+                    dispatch("getBlogComment", blogContentId);
+                    commit("toggleUpdateComment", blogCommentId);
+                })
+                .catch((error) => {
+                    console.log(error.response);
+                });
+        },
+
+        // 댓글 삭제하기
+        async deleteComment({ dispatch }, { blogContentId, deleteCommentId }) {
+            await axios
+                .delete(`${API_SERVER_URL}/blog/${blogContentId}/comment`, {
+                    params: {
+                        deleteCommentId: deleteCommentId,
+                    },
+                })
+                .then(() => {
+                    dispatch("getBlogComment", blogContentId);
+                    dispatch("postStore/getBlogDetail", blogContentId, { root: true });
+                })
+                .catch((error) => {
+                    console.log(error.response);
+                });
         },
 
         // 답글 등록
@@ -147,8 +151,8 @@ const commentStore = {
                 });
         },
 
-        // 댓글 수정
-        async updateComment({ state, dispatch, commit }, { blogContentId, blogCommentId }) {
+        //답글 수정
+        async updateSubComment({ state, dispatch, commit }, { blogContentId, blogCommentId }) {
             await axios
                 .post(
                     `${API_SERVER_URL}/blog/${blogContentId}/update-comment/${blogCommentId}`,
@@ -156,34 +160,31 @@ const commentStore = {
                     {
                         params: {
                             commentText: state.updateCommentText,
+                            subCommentId: blogCommentId,
                         },
                     }
                 )
                 .then(() => {
                     dispatch("getBlogComment", blogContentId);
-                    commit("toggleUpdateComment", blogCommentId);
+                    commit("toggleUpdateSubComment", blogCommentId);
                 })
                 .catch((error) => {
                     console.log(error.response);
                 });
         },
 
-        //답글 수정
-        async updateSubComment({ state, dispatch, commit }, { blogContentId, blogSubCommentId }) {
+        // 답글 삭제하기
+        async deleteSubComment({ dispatch }, { blogContentId, deleteSubCommentId }) {
+            console.log(blogContentId, deleteSubCommentId);
             await axios
-                .post(
-                    `${API_SERVER_URL}/blog/${blogContentId}/update-comment/${blogSubCommentId}`,
-                    {},
-                    {
-                        params: {
-                            commentText: state.updateCommentText,
-                            subCommentId: blogSubCommentId,
-                        },
-                    }
-                )
+                .delete(`${API_SERVER_URL}/blog/${blogContentId}/comment`, {
+                    params: {
+                        deleteSubCommentId: deleteSubCommentId,
+                    },
+                })
                 .then(() => {
                     dispatch("getBlogComment", blogContentId);
-                    commit("toggleUpdateSubComment", blogSubCommentId);
+                    dispatch("postStore/getBlogDetail", blogContentId, { root: true });
                 })
                 .catch((error) => {
                     console.log(error.response);

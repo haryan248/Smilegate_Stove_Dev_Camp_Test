@@ -14,7 +14,7 @@
             <div>최종 수정일 : {{ blogSubCommentItem.updated_at === null ? blogSubCommentItem.created_at : blogSubCommentItem.updated_at }}</div>
             <button @click="toggleUpdateSubComment(blogSubCommentItem.sub_comment_id)">댓글 수정</button>
             <button @click="toggleRegisterSubComment(blogComment.comment_id)">댓글 달기</button>
-            <button @click="deleteSubComment({ blogContentId: blogComment.content_id, deleteSubCommentId: blogComment.comment_id })">
+            <button @click="deleteSubComment({ blogContentId: blogComment.content_id, deleteSubCommentId: blogSubCommentItem.sub_comment_id })">
                 댓글 삭제
             </button>
         </div>
