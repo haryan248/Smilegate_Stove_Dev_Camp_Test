@@ -18,8 +18,12 @@
             <CommentCreate :blogCommentText="blogComment.text" :blogCommentId="blogComment.comment_id" :blogContentId="blogComment.content_id" />
         </div>
         <div v-else class="CommentListItem-text">{{ blogComment.text }}</div>
-        <button class="CommentListItem-register__subcomment" @click="toggleRegisterSubComment(blogComment.comment_id)">
-            {{ blogComment.registerStatus ? "닫기" : "답글 달기" }}
+        <button
+            v-if="!blogComment.registerStatus"
+            class="CommentListItem-register__subcomment"
+            @click="toggleRegisterSubComment(blogComment.comment_id)"
+        >
+            답글 달기
         </button>
 
         <div v-if="filteredBlogSubCommentList.length > 0">
