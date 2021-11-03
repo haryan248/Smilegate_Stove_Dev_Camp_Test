@@ -31,14 +31,9 @@
     background-color: #ff5000;
     color: #fff;
 }
-.CommentCreate-subcomment__button {
-    border: solid 1px #ff5000;
-    background-color: #ff5000;
-    margin-right: 1rem;
-    color: #fff;
-}
 .CommentCreate-cancel__button {
     border: 1px solid #ddd;
+    margin-left: 1rem;
     background-color: #fff;
     color: #999;
 }

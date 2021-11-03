@@ -20,6 +20,7 @@ button {
     outline-style: none;
     background-color: #fff;
     font-family: inherit;
+    border: none;
 }
 input,
 textarea,
