@@ -9,9 +9,6 @@ const postStore = {
         blogTitle: "",
         blogDescription: "",
         blogContent: {},
-        blogCommentList: {},
-        blogSubCommentList: {},
-        updateCommentText: "",
     },
     getters: {},
     mutations: {
@@ -95,6 +92,8 @@ const postStore = {
                 )
                 .then((res) => {
                     replaceId = res.data.data;
+                    state.blogTitle = "";
+                    state.blogDescription = "";
                 })
                 .then(() => router.replace(`/blog/detail/${replaceId}`))
                 .catch((error) => {
@@ -108,19 +107,6 @@ const postStore = {
                 .get(`${API_SERVER_URL}/blog/${blogContentId}`)
                 .then(({ data }) => {
                     state.blogContent = data;
-                })
-                .catch((error) => {
-                    console.log(error.response);
-                });
-        },
-
-        // 게시물 댓글 불러오기
-        async getBlogComment({ state }, blogContentId) {
-            await axios
-                .get(`${API_SERVER_URL}/blog/${blogContentId}/comment`)
-                .then(({ data }) => {
-                    state.blogCommentList = data.data.comment_result;
-                    state.blogSubCommentList = data.data.sub_comment_result;
                 })
                 .catch((error) => {
                     console.log(error.response);
