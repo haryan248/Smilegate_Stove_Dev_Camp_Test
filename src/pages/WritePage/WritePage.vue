@@ -30,6 +30,7 @@ export default {
         if (this.blogContentId > 0) {
             this.getBlogWriteData(this.blogContentId);
         }
+        this.resetInput();
     },
     computed: {
         ...postHelper.mapState({
@@ -56,7 +57,7 @@ export default {
         },
     },
     methods: {
-        ...postHelper.mapMutations(["updateBlogTitle", "updateBlogDescription"]),
+        ...postHelper.mapMutations(["updateBlogTitle", "updateBlogDescription", "resetInput"]),
         ...postHelper.mapActions(["getBlogWriteData", "updateBlogData", "postBlogData"]),
     },
 };

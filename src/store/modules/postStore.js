@@ -27,6 +27,8 @@ const postStore = {
                 path: `/blog/write/${blogContentId}`,
             });
         },
+
+        // 데이터 초기화하기
         resetInput(state) {
             state.blogTitle = "";
             state.blogDescription = "";

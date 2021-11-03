@@ -8,7 +8,7 @@
                 @input="(e) => (isSubComment ? (subCommentTextValue = e.target.value) : (commentTextValue = e.target.value))"
             />
             <button @click="isSubComment ? registerSubComment({ blogContentId, blogCommentId }) : registerComment(blogContentId)">댓글 등록</button>
-            <button v-if="isSubComment" @click="toggleRegisterSubComment">취소</button>
+            <button v-if="isSubComment" @click="toggleRegisterSubComment(blogCommentId)">취소</button>
         </div>
         <div v-else>
             <input type="text" v-model="updateCommentTextValue" />
@@ -53,7 +53,7 @@ export default {
                 this.modifyCommentText(value);
             },
         },
-        
+
         subCommentTextValue: {
             get() {
                 return this.subCommentText;
