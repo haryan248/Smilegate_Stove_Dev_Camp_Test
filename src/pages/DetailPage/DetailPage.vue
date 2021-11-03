@@ -10,13 +10,7 @@
             <div>{{ blogContent.commentCount }} 개의 댓글</div>
             <div>댓글 목록</div>
             <div>
-                <CommentList
-                    :blogCommentList="blogCommentList"
-                    :blogSubCommentList="blogSubCommentList"
-                    :getBlogComment="getBlogComment"
-                    :getBlogDetail="getBlogDetail"
-                    :blogContentId="blogContentId"
-                />
+                <CommentList :blogContentId="blogContentId" />
             </div>
         </div>
     </div>
@@ -26,6 +20,7 @@
 import CommentList from "../../components/Comment/CommentList/CommentList.vue";
 import { createNamespacedHelpers } from "vuex";
 const postHelper = createNamespacedHelpers("postStore");
+const commentHelper = createNamespacedHelpers("commentStore");
 
 export default {
     name: "DetailPage",
@@ -44,14 +39,12 @@ export default {
     computed: {
         ...postHelper.mapState({
             blogContent: (state) => state.blogContent,
-            blogCommentList: (state) => state.blogCommentList,
-            blogSubCommentList: (state) => state.blogSubCommentList,
-            updateCommentText: (state) => state.updateCommentText,
         }),
     },
     methods: {
         ...postHelper.mapMutations(["updateBlogPost"]),
-        ...postHelper.mapActions(["getBlogDetail", "getBlogComment", "deleteBlogPost"]),
+        ...postHelper.mapActions(["getBlogDetail", "deleteBlogPost"]),
+        ...commentHelper.mapActions(["getBlogComment"]),
     },
 };
 </script>
