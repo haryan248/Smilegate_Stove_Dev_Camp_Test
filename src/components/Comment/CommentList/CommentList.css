@@ -1,0 +1,8 @@
+.CommentList-container {
+    padding: 0.4rem;
+}
+.CommentList-comment__list {
+    margin-top: 2rem;
+    border-bottom: 1px solid #ddd;
+    padding: 1rem;
+}

@@ -1,8 +1,10 @@
 <template>
     <div>
         <CommentCreate :isRegister="true" :blogContentId="blogContentId" />
-        <div class="comment-container" v-for="blogComment in blogCommentList" :key="blogComment.comment_id">
-            <CommentListItem :blogComment="blogComment" />
+        <div class="CommentList-container">
+            <div class="CommentList-comment__list" v-for="blogComment in blogCommentList" :key="blogComment.comment_id">
+                <CommentListItem :blogComment="blogComment" />
+            </div>
         </div>
     </div>
 </template>
@@ -32,3 +34,6 @@ export default {
     },
 };
 </script>
+<style scoped>
+@import "./CommentList.css";
+</style>
