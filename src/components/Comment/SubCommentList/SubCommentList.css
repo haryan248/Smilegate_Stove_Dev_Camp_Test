@@ -1,0 +1,10 @@
+.SubComment-container {
+    display: flex;
+    flex-direction: row;
+    border-bottom: 1px solid #ddd;
+    padding: 1rem;
+}
+.SubComment-right__arrow {
+    margin-right: 1rem;
+    font-weight: 400;
+}

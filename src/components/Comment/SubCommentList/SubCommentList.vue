@@ -1,6 +1,7 @@
 <template>
     <div>
-        <div class="sub-comment-container" v-for="blogSubCommentItem in filteredBlogSubCommentList" :key="blogSubCommentItem.sub_comment_id">
+        <div class="SubComment-container" v-for="blogSubCommentItem in filteredBlogSubCommentList" :key="blogSubCommentItem.sub_comment_id">
+            <div class="SubComment-right__arrow">↳</div>
             <SubCommentListItem :blogComment="blogComment" :blogSubCommentItem="blogSubCommentItem" />
         </div>
     </div>
@@ -22,4 +23,6 @@ export default {
     },
 };
 </script>
-<style scoped></style>
+<style scoped>
+@import "./SubCommentList.css";
+</style>
