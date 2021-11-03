@@ -47,7 +47,7 @@ app.get("/blog/:blogContentId", function (req, res) {
 
 // 새로운 글 등록
 app.post("/blog", function (req, res) {
-    const userId = req.query.user_id;
+    const userId = req.query.userId;
     const title = req.query.title;
     const description = req.query.description;
     const contentId = String(+new Date());
@@ -57,7 +57,7 @@ app.post("/blog", function (req, res) {
         content_id: contentId,
         title,
         description,
-        created_at: new Date(),
+        created_at: new Date().toLocaleString(),
         updated_at: null,
         commentCount: 0,
     });
@@ -73,7 +73,7 @@ app.post("/update-blog", function (req, res) {
 
     BlogPost.forEach((blogItem) => {
         if (blogItem.content_id === blogContentId) {
-            blogItem.updated_at = new Date();
+            blogItem.updated_at = new Date().toLocaleString();
             blogItem.title = title;
             blogItem.description = description;
         } else return;
@@ -101,10 +101,11 @@ app.get("/blog/:blogContentId/comment", function (req, res) {
 
 // 댓글, 답글 등록
 app.post("/blog/:blogContentId/comment/:blogCommentId?", function (req, res) {
-    const userId = req.query.user_id;
+    const userId = req.query.userId;
+    const commentText = req.query.commentText;
     const blogContentId = req.params.blogContentId;
     const blogCommentId = req.params.blogCommentId;
-    const commentText = req.query.commentText;
+    console.log(userId, commentText);
     const subCommentId = "sub" + +new Date();
     const commentId = String(+new Date());
 
@@ -115,7 +116,7 @@ app.post("/blog/:blogContentId/comment/:blogCommentId?", function (req, res) {
             comment_id: blogCommentId,
             user_id: userId,
             text: commentText,
-            created_at: new Date(),
+            created_at: new Date().toLocaleString(),
             updated_at: null,
         });
     } else {
@@ -124,7 +125,7 @@ app.post("/blog/:blogContentId/comment/:blogCommentId?", function (req, res) {
             content_id: blogContentId,
             user_id: userId,
             text: commentText,
-            created_at: new Date(),
+            created_at: new Date().toLocaleString(),
             updated_at: null,
         });
     }
@@ -142,14 +143,14 @@ app.post("/blog/:blogContentId/update-comment/:commentId", function (req, res) {
         SubComment.forEach((subCommentItem) => {
             if (subCommentItem.sub_comment_id === subCommentId) {
                 subCommentItem.text = commentText;
-                subCommentItem.updated_at = new Date();
+                subCommentItem.updated_at = new Date().toLocaleString();
             } else return;
         });
     } else {
         Comment.forEach((commentItem) => {
             if (commentItem.comment_id === commentId) {
                 commentItem.text = commentText;
-                commentItem.updated_at = new Date();
+                commentItem.updated_at = new Date().toLocaleString();
             } else return;
         });
     }
@@ -171,6 +172,7 @@ app.delete("/blog/:blogContentId/comment", function (req, res) {
             let deleteTempIndex = SubComment.findIndex((subCommentItem) => subCommentItem.comment_id === deleteCommentId);
             SubComment.splice(deleteTempIndex, 1);
         });
+        console.log(SubComment);
         Comment.splice(deleteIndex, 1);
     } else {
         SubComment.splice(deleteSubIndex, 1);
