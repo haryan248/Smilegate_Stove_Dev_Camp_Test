@@ -1,0 +1,26 @@
+.sub-comment-container {
+    border: 1px solid black;
+    padding: 10px;
+    margin: 10px;
+}
+.CommentListItem-content--container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.CommentListItem-text {
+    font-size: 1.5rem;
+}
+.CommentListItem-recent__update__date,
+.CommentListItem-modify__button,
+.CommentListItem-delete__button {
+    margin-right: 0.5rem;
+    cursor: pointer;
+}
+.CommentListItem-recent__update__date {
+    font-size: 0.9rem;
+}
+.CommentListItem-register__subcomment {
+    cursor: pointer;
+}

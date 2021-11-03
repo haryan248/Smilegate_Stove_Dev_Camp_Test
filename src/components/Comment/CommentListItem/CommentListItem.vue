@@ -1,16 +1,26 @@
 <template>
     <div>
+        <div class="CommentListItem-content--container">
+            <div class="CommentListItem-recent__update__date">
+                {{ blogComment.updated_at === null ? blogComment.created_at : blogComment.updated_at }}
+            </div>
+            <div v-if="!blogComment.updateStatus">
+                <button class="CommentListItem-modify__button" @click="toggleUpdateComment(blogComment.comment_id)">수정</button>
+                <button
+                    class="CommentListItem-delete__button"
+                    @click="deleteComment({ blogContentId: blogComment.content_id, deleteCommentId: blogComment.comment_id })"
+                >
+                    삭제
+                </button>
+            </div>
+        </div>
         <div v-if="blogComment.updateStatus">
             <CommentCreate :blogCommentText="blogComment.text" :blogCommentId="blogComment.comment_id" :blogContentId="blogComment.content_id" />
         </div>
-        <div v-else>
-            <div>{{ blogComment.text }}</div>
-            <div>등록일 : {{ blogComment.created_at }}</div>
-            <div>최종 수정일 : {{ blogComment.updated_at === null ? blogComment.created_at : blogComment.updated_at }}</div>
-            <button @click="toggleUpdateComment(blogComment.comment_id)">댓글 수정</button>
-            <button @click="toggleRegisterSubComment(blogComment.comment_id)">답글 달기</button>
-            <button @click="deleteComment({ blogContentId: blogComment.content_id, deleteCommentId: blogComment.comment_id })">댓글 삭제</button>
-        </div>
+        <div v-else class="CommentListItem-text">{{ blogComment.text }}</div>
+        <button class="CommentListItem-register__subcomment" @click="toggleRegisterSubComment(blogComment.comment_id)">
+            {{ blogComment.registerStatus ? "닫기" : "답글 달기" }}
+        </button>
 
         <div v-if="filteredBlogSubCommentList.length > 0">
             <SubCommentList :blogComment="blogComment" :filteredBlogSubCommentList="filteredBlogSubCommentList" />
