@@ -1,0 +1,31 @@
+.SubCommentListItem-container {
+    flex: 1;
+}
+.SubCommentListItem-content--container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.SubCommentListItem-text {
+    font-size: 1.5rem;
+}
+.SubCommentListItem-recent__update__date,
+.SubCommentListItem-modify__button,
+.SubCommentListItem-delete__button {
+    margin-right: 0.5rem;
+    cursor: pointer;
+    transition: 0.2s;
+    border-bottom: 1px solid transparent;
+}
+.SubCommentListItem-recent__update__date {
+    font-size: 0.9rem;
+}
+.SubCommentListItem-register__subcomment {
+    cursor: pointer;
+}
+.SubCommentListItem-modify__button:hover,
+.SubCommentListItem-delete__button:hover {
+    color: #ff5000;
+    border-color: #ff5000;
+}
