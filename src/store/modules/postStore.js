@@ -27,6 +27,10 @@ const postStore = {
                 path: `/blog/write/${blogContentId}`,
             });
         },
+        resetInput(state) {
+            state.blogTitle = "";
+            state.blogDescription = "";
+        },
     },
     actions: {
         // 전체 게시글 데이터 가져오기
@@ -55,28 +59,20 @@ const postStore = {
                 });
         },
 
-        // 블로그 게시물 수정
-        async updateBlogData({ state }, blogContentId) {
+        // 상세 페이지 불러오기
+        async getBlogDetail({ state }, blogContentId) {
             await axios
-                .post(
-                    `${API_SERVER_URL}/update-blog`,
-                    {},
-                    {
-                        params: {
-                            blogContentId: blogContentId,
-                            title: state.blogTitle,
-                            description: state.blogDescription,
-                        },
-                    }
-                )
-                .then(() => router.replace(`/blog/detail/${blogContentId}`))
+                .get(`${API_SERVER_URL}/blog/${blogContentId}`)
+                .then(({ data }) => {
+                    state.blogContent = data;
+                })
                 .catch((error) => {
                     console.log(error.response);
                 });
         },
 
         // 블로그 게시물 등록
-        async postBlogData({ state }) {
+        async postBlogData({ state, commit }) {
             let replaceId = "";
             await axios
                 .post(
@@ -92,8 +88,7 @@ const postStore = {
                 )
                 .then((res) => {
                     replaceId = res.data.data;
-                    state.blogTitle = "";
-                    state.blogDescription = "";
+                    commit("resetInput");
                 })
                 .then(() => router.replace(`/blog/detail/${replaceId}`))
                 .catch((error) => {
@@ -101,21 +96,30 @@ const postStore = {
                 });
         },
 
-        // 상세 페이지 불러오기
-        async getBlogDetail({ state }, blogContentId) {
+        // 블로그 게시물 수정
+        async updateBlogData({ state, commit }, blogContentId) {
             await axios
-                .get(`${API_SERVER_URL}/blog/${blogContentId}`)
-                .then(({ data }) => {
-                    state.blogContent = data;
-                })
+                .post(
+                    `${API_SERVER_URL}/update-blog`,
+                    {},
+                    {
+                        params: {
+                            blogContentId: blogContentId,
+                            title: state.blogTitle,
+                            description: state.blogDescription,
+                        },
+                    }
+                )
+                .then(() => router.replace(`/blog/detail/${blogContentId}`))
+                .then(() => commit("resetInput"))
                 .catch((error) => {
                     console.log(error.response);
                 });
         },
 
         // 글 삭제하기
-        deleteBlogPost(_, blogContentId) {
-            axios
+        async deleteBlogPost(_, blogContentId) {
+            await axios
                 .delete(`${API_SERVER_URL}/blog/${blogContentId}`)
                 .then(() => router.push("/"))
                 .catch((error) => {

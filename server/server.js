@@ -16,12 +16,6 @@ const corsOptions = {
 
 app.use(cors(corsOptions)); // 옵션을 추가한 CORS 미들웨어 추가
 
-// 블로그 글 등록, 조회, 삭제, 수정 API
-// 글 목록 조회
-app.get("/blog", function (req, res) {
-    res.send(BlogPost);
-});
-
 // 블로그 게시물의 댓글 수 세는 함수
 const countCommentList = (blogContentId) => {
     const totalComment =
@@ -34,6 +28,12 @@ const countCommentList = (blogContentId) => {
         } else return;
     });
 };
+
+// 블로그 글 등록, 조회, 삭제, 수정 API
+// 글 목록 조회
+app.get("/blog", function (req, res) {
+    res.send(BlogPost);
+});
 
 // 글 세부 페이지 내용
 app.get("/blog/:blogContentId", function (req, res) {
@@ -95,7 +95,6 @@ app.get("/blog/:blogContentId/comment", function (req, res) {
     const blogContentId = req.params.blogContentId;
     const comment_result = Comment.filter((commentItem) => commentItem.content_id === blogContentId);
     const sub_comment_result = SubComment.filter((subCommentItem) => subCommentItem.content_id === blogContentId);
-    console.log(sub_comment_result);
 
     res.json({ message: "OK", data: { comment_result, sub_comment_result } });
 });
@@ -165,7 +164,7 @@ app.delete("/blog/:blogContentId/comment", function (req, res) {
     const deleteSubCommentId = req.query.deleteSubCommentId === undefined ? null : req.query.deleteSubCommentId;
 
     const deleteIndex = Comment.findIndex((commentItem) => commentItem.comment_id === deleteCommentId);
-    const deleteSubIndex = SubComment.findIndex((subCommentItem) => subCommentItem.comment_id === deleteSubCommentId);
+    const deleteSubIndex = SubComment.findIndex((subCommentItem) => subCommentItem.sub_comment_id === deleteSubCommentId);
 
     if (deleteSubCommentId === null) {
         SubComment.forEach((_) => {
@@ -178,9 +177,9 @@ app.delete("/blog/:blogContentId/comment", function (req, res) {
     }
     countCommentList(blogContentId);
 
-    res.json({ message: "OK" });
+    res.json({ message: "OK", data: { Comment, SubComment } });
 });
 
 app.listen(3000, () => {
-    console.log("Server is on!");
+    console.log("------------------API Server is on!------------------");
 });

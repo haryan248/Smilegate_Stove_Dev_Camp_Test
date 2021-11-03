@@ -12,6 +12,7 @@ const commentStore = {
     },
     getters: {},
     mutations: {
+        // v-model data 관리
         modifyCommentText(state, payload) {
             state.commentText = payload;
         },
@@ -24,6 +25,7 @@ const commentStore = {
             state.subCommentText = payload;
         },
 
+        // 토글 mutation
         toggleUpdateComment(state, blogCommentId) {
             state.blogCommentList.forEach((blogCommentItem) => {
                 if (blogCommentItem.comment_id === blogCommentId) {
@@ -151,7 +153,7 @@ const commentStore = {
                 });
         },
 
-        //답글 수정
+        // 답글 수정
         async updateSubComment({ state, dispatch, commit }, { blogContentId, blogCommentId }) {
             await axios
                 .post(
