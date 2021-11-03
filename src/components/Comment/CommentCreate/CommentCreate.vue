@@ -1,21 +1,37 @@
 <template>
     <div>
         <div v-if="isRegister">
-            <input
-                type="text"
-                :placeholder="isSubComment ? '답글을 달아주세요.' : '댓글을 남겨보세요.'"
-                :value="isSubComment ? subCommentTextValue : commentTextValue"
-                @input="(e) => (isSubComment ? (subCommentTextValue = e.target.value) : (commentTextValue = e.target.value))"
-            />
-            <button @click="isSubComment ? registerSubComment({ blogContentId, blogCommentId }) : registerComment(blogContentId)">댓글 등록</button>
+            <div class="CommentCreate-comment__input--container">
+                <input
+                    class="CommentCreate-comment__input"
+                    type="text"
+                    :placeholder="isSubComment ? '답글을 달아주세요.' : '댓글을 남겨보세요.'"
+                    :value="isSubComment ? subCommentTextValue : commentTextValue"
+                    @input="(e) => (isSubComment ? (subCommentTextValue = e.target.value) : (commentTextValue = e.target.value))"
+                />
+                <button
+                    class="CommentCreate-comment__button CommentCreate-button"
+                    @click="isSubComment ? registerSubComment({ blogContentId, blogCommentId }) : registerComment(blogContentId)"
+                >
+                    댓글 작성
+                </button>
+            </div>
             <button v-if="isSubComment" @click="toggleRegisterSubComment(blogCommentId)">취소</button>
         </div>
-        <div v-else>
-            <input type="text" v-model="updateCommentTextValue" />
-            <button @click="isSubComment ? updateSubComment({ blogContentId, blogCommentId }) : updateComment({ blogContentId, blogCommentId })">
+        <div v-else class="CommentCreate-comment__input--container">
+            <input class="CommentCreate-comment__input" type="text" v-model="updateCommentTextValue" />
+            <button
+                class="CommentCreate-subcomment__button CommentCreate-button"
+                @click="isSubComment ? updateSubComment({ blogContentId, blogCommentId }) : updateComment({ blogContentId, blogCommentId })"
+            >
                 수정 완료
             </button>
-            <button @click="isSubComment ? toggleUpdateSubComment(blogCommentId) : toggleUpdateComment(blogCommentId)">취소</button>
+            <button
+                class="CommentCreate-cancel__button CommentCreate-button"
+                @click="isSubComment ? toggleUpdateSubComment(blogCommentId) : toggleUpdateComment(blogCommentId)"
+            >
+                취소
+            </button>
         </div>
     </div>
 </template>
@@ -86,3 +102,6 @@ export default {
     },
 };
 </script>
+<style scoped>
+@import "./CommentCreate.css";
+</style>
