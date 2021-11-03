@@ -1,0 +1,49 @@
+.DetailPage-container {
+    display: flex;
+    flex-flow: column;
+    width: 70%;
+    margin: auto;
+    margin-top: calc(5rem + 80px);
+    text-align: left;
+}
+.DetailPage-title {
+    font-size: 3rem;
+    font-family: Apple SD Gothic NeoEB;
+}
+.DetailPage-content--container {
+}
+.DetailPage-management {
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    margin-bottom: 2rem;
+}
+.DetailPage-create__date {
+    margin-right: 0.5rem;
+}
+.DetailPage-delete__button,
+.DetailPage-modify__button {
+    text-decoration-line: none;
+    cursor: pointer;
+    border: none;
+    margin-right: 0.5rem;
+}
+
+.DetailPage-description {
+    border-radius: 10px;
+    padding: 3rem 2rem 5rem 2rem;
+    box-shadow: 0px 30px 60px 0 rgb(0 0 0 / 10%);
+    margin-bottom: 4rem;
+    white-space: pre-wrap;
+}
+.DetailPage-comment__count {
+    font-family: "Apple SD Gothic NeoM";
+    font-size: 1.2rem;
+    font-weight: 400;
+    margin-bottom: 1rem;
+}
+.DetailPage-comment__list {
+    font-family: "Apple SD Gothic NeoM";
+    font-size: 1.2rem;
+    font-weight: 400;
+}
