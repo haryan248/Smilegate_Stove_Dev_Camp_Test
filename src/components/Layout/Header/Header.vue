@@ -6,7 +6,7 @@
             </router-link>
 
             <router-link to="/blog/write">
-                <div class="Header-header-write__button">글 쓰기</div>
+                <div v-if="!$route.path.includes('/blog/write')" class="Header-header-write__button">글 쓰기</div>
             </router-link>
         </div>
     </header>
