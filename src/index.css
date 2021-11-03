@@ -1,0 +1,68 @@
+body,
+button,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+input,
+li,
+ol,
+p,
+textarea,
+ul {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+button {
+    outline-style: none;
+    background-color: #fff;
+    font-family: inherit;
+}
+input,
+textarea,
+a {
+    color: inherit;
+    text-decoration: none;
+    outline: none;
+}
+input,
+textarea {
+    resize: none;
+    font-family: inherit;
+}
+#app {
+    font-family: "Apple SD Gothic NeoR", "Roboto", sans-serif;
+    text-align: center;
+    color: #333;
+    padding-bottom: 5rem;
+}
+@font-face {
+    src: url("./assets/fonts/AppleSDGothicNeoB.ttf");
+    font-family: "Apple SD Gothic NeoB";
+}
+@font-face {
+    src: url("./assets/fonts/AppleSDGothicNeoEB.ttf");
+    font-family: "Apple SD Gothic NeoEB";
+}
+
+@font-face {
+    src: url("./assets/fonts/AppleSDGothicNeoH.ttf");
+    font-family: "Apple SD Gothic NeoH";
+}
+
+@font-face {
+    src: url("./assets/fonts/AppleSDGothicNeoM.ttf");
+    font-family: "Apple SD Gothic NeoM";
+}
+
+@font-face {
+    src: url("./assets/fonts/AppleSDGothicNeoR.ttf");
+    font-family: "Apple SD Gothic NeoR";
+}
+@font-face {
+    src: url("./assets/fonts/AppleSDGothicNeoSB.ttf");
+    font-family: "Apple SD Gothic NeoSB";
+}
