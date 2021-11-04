@@ -9,7 +9,7 @@
         </div>
         <div v-if="blogPosts.length === 0">등록된 블로그 글이 없습니다.</div>
         <div class="HomePage-post__list--container">
-            <div class="HomePage-post__list" v-for="blogPost in blogPosts" :key="blogPost.content_id" @click="goToDetailPage(blogPost)">
+            <div class="HomePage-post__list" v-for="blogPost in blogPosts" :key="blogPost.content_id" @click="GO_TO_DETAIL_PAGE(blogPost.content_id)">
                 <div>
                     <div class="HomePage-post__list-item--title">{{ blogPost.title }}</div>
                     <div class="HomePage-post__list-item--text">{{ blogPost.description }}</div>
@@ -39,12 +39,7 @@ export default {
     },
     methods: {
         ...postHelper.mapActions(["getBlogPostData"]),
-        goToDetailPage(blogPost) {
-            this.$router.push({
-                path: `/blog/detail/${blogPost.content_id}`,
-                params: { blogContentId: blogPost.content_id },
-            });
-        },
+        ...postHelper.mapMutations(["GO_TO_DETAIL_PAGE"]),
     },
 };
 </script>

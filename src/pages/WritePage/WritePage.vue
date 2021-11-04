@@ -10,7 +10,7 @@
                 <textarea class="WritePage-main__text--textarea" placeholder="내용을 입력해주세요." v-model="blogDescriptionValue" />
             </div>
         </div>
-        <button class="WritePage-register__button" @click="isUpdate ? updateBlogData(blogContentId) : postBlogData()">
+        <button class="WritePage-register__button" @click="isUpdate ? updateBlogData() : postBlogData()">
             {{ isUpdate ? "글 수정하기" : "글 등록하기" }}
         </button>
     </div>
@@ -23,19 +23,22 @@ export default {
     data() {
         return {
             isUpdate: this.$route.params.blogContentId > 0 ? true : false,
-            blogContentId: this.$route.params.blogContentId,
         };
     },
     created() {
+        this.SET_BLOG_CONTENT_ID(this.$route.params.blogContentId);
+    },
+    mounted() {
         if (this.blogContentId > 0) {
-            this.getBlogWriteData(this.blogContentId);
+            this.getBlogWriteData();
         }
-        this.resetInput();
+        this.RESET_INPUT();
     },
     computed: {
         ...postHelper.mapState({
             blogTitle: (state) => state.blogTitle,
             blogDescription: (state) => state.blogDescription,
+            blogContentId: (state) => state.blogContentId,
         }),
 
         blogTitleValue: {
@@ -57,7 +60,7 @@ export default {
         },
     },
     methods: {
-        ...postHelper.mapMutations(["UPDATE_BLOG_TITLE", "UPDATE_BLOG_DESCRIPTION", "RESET_INPUT"]),
+        ...postHelper.mapMutations(["UPDATE_BLOG_TITLE", "UPDATE_BLOG_DESCRIPTION", "RESET_INPUT", "SET_BLOG_CONTENT_ID"]),
         ...postHelper.mapActions(["getBlogWriteData", "updateBlogData", "postBlogData"]),
     },
 };

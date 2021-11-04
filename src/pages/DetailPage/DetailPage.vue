@@ -6,8 +6,8 @@
             <div class="DetailPage-management">
                 <div class="DetailPage-create__date">{{ blogContent.created_at }}</div>
                 <div>
-                    <button class="DetailPage-modify__button" @click="UPDATE_BLOG_POST(blogContentId)">수정</button>
-                    <button class="DetailPage-delete__button" @click="deleteBlogPost(blogContentId)">삭제</button>
+                    <button class="DetailPage-modify__button" @click="UPDATE_BLOG_POST()">수정</button>
+                    <button class="DetailPage-delete__button" @click="deleteBlogPost()">삭제</button>
                 </div>
             </div>
             <div class="DetailPage-description" v-html="blogContent.description"></div>
@@ -16,7 +16,7 @@
             <div class="DetailPage-comment__count">{{ blogContent.commentCount }} 개의 댓글</div>
             <div class="DetailPage-comment__list">댓글 목록</div>
             <div>
-                <CommentList :blogContentId="blogContentId" />
+                <CommentList />
             </div>
         </div>
     </div>
@@ -31,16 +31,17 @@ const commentHelper = createNamespacedHelpers("commentStore");
 export default {
     name: "DetailPage",
     data() {
-        return {
-            blogContentId: this.$route.params.blogContentId,
-        };
+        return {};
     },
     components: {
         CommentList,
     },
+    created() {
+        this.SET_BLOG_CONTENT_ID(this.$route.params.blogContentId);
+    },
     mounted() {
-        this.getBlogDetail(this.blogContentId);
-        this.getBlogComment(this.blogContentId);
+        this.getBlogDetail();
+        this.getBlogComment();
     },
     computed: {
         ...postHelper.mapState({
@@ -48,7 +49,7 @@ export default {
         }),
     },
     methods: {
-        ...postHelper.mapMutations(["UPDATE_BLOG_POST"]),
+        ...postHelper.mapMutations(["UPDATE_BLOG_POST", "SET_BLOG_CONTENT_ID"]),
         ...postHelper.mapActions(["getBlogDetail", "deleteBlogPost"]),
         ...commentHelper.mapActions(["getBlogComment"]),
     },
