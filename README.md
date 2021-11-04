@@ -50,4 +50,4 @@ package.json
 -   [ ] Trackback
 -   [ ] RSS
 
-[위키] (https://github.com/haryan248/Smilegate_Stove_Dev_Camp_Test.wiki.git)
+[위키](https://github.com/haryan248/Smilegate_Stove_Dev_Camp_Test.wiki.git)
