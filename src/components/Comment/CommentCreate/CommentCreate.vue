@@ -27,7 +27,9 @@
                     취소
                 </button>
             </div>
-            <div v-if="commentValidationStatus" class="CommentCreate-error-message">최소 1자 이상 입력해주세요.</div>
+            <div v-if="isSubComment ? subCommentValidationStatus : commentValidationStatus" class="CommentCreate-error-message">
+                최소 1자 이상 입력해주세요.
+            </div>
         </div>
         <div v-else class="CommentCreate-comment__input--container">
             <!-- when update subcomment  -->
