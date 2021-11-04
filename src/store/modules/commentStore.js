@@ -9,7 +9,12 @@ const commentStore = {
         commentText: "",
         subCommentText: "",
     },
-    getters: {},
+    getters: {
+        getCommentCount: (state) => {
+            const totalComment = state.blogSubCommentList.length + state.blogCommentList.length;
+            return totalComment;
+        },
+    },
     mutations: {
         // v-model data 관리
         MODIFY_COMMENT_TEXT(state, payload) {

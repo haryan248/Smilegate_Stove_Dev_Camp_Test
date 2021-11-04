@@ -13,7 +13,7 @@
             <div class="DetailPage-description" v-html="blogContent.description"></div>
         </div>
         <div>
-            <div class="DetailPage-comment__count">{{ blogContent.commentCount }} 개의 댓글</div>
+            <div class="DetailPage-comment__count">{{ getCommentCount }} 개의 댓글</div>
             <div class="DetailPage-comment__list">댓글 목록</div>
             <div>
                 <CommentList />
@@ -44,6 +44,7 @@ export default {
         this.getBlogComment();
     },
     computed: {
+        ...commentHelper.mapGetters(["getCommentCount"]),
         ...postHelper.mapState({
             blogContent: (state) => state.blogContent,
         }),
