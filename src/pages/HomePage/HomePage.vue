@@ -7,9 +7,22 @@
                 <div class="HomePage-profile-text">STOVE DEV CAMP 2기 Client(Web) 분야에 지원했습니다.</div>
             </div>
         </div>
-        <div v-if="blogPosts.length === 0">등록된 블로그 글이 없습니다.</div>
+
         <div class="HomePage-post__list--container">
-            <div class="HomePage-post__list" v-for="blogPost in blogPosts" :key="blogPost.content_id" @click="GO_TO_DETAIL_PAGE(blogPost.content_id)">
+            <h3 class="HomePage-post--title">게시글 목록</h3>
+            <div class="HomePage-post-empty--container" v-if="blogPosts.length === 0">
+                <div class="HomePage-post-empty-text">
+                    <p>아직 작성된 글이 없습니다.</p>
+                    <p>글을 <span class="focus-text">작성</span>해 보세요</p>
+                </div>
+            </div>
+            <div
+                v-else
+                class="HomePage-post__list"
+                v-for="blogPost in blogPosts"
+                :key="blogPost.content_id"
+                @click="GO_TO_DETAIL_PAGE(blogPost.content_id)"
+            >
                 <div>
                     <div class="HomePage-post__list-item--title">{{ blogPost.title }}</div>
                     <div class="HomePage-post__list-item--text">{{ blogPost.description }}</div>
