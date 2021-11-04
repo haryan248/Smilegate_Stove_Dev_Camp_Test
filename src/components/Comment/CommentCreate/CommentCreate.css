@@ -37,3 +37,8 @@
     background-color: #fff;
     color: #999;
 }
+
+.CommentCreate-error-message {
+    margin-top: 1rem;
+    color: #ff5000;
+}

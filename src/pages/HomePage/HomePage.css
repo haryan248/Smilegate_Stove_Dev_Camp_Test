@@ -27,6 +27,23 @@
     flex-direction: column;
     align-items: center;
     margin-top: 5rem;
+    margin-bottom: 2rem;
+}
+.HomePage-post--title {
+    font-family: "Apple SD Gothic NeoSB";
+    font-size: 2rem;
+    display: flex;
+    justify-content: left;
+}
+.HomePage-post-empty--container {
+    display: flex;
+    margin-top: 8rem;
+    font-family: "Apple SD Gothic NeoSB";
+    color: #333;
+    font-size: 1.5rem;
+}
+.HomePage-post-empty--container .focus-text {
+    color: #ff5000;
 }
 .HomePage-post__list {
     width: 80%;

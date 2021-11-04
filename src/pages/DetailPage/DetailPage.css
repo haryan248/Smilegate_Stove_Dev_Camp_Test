@@ -1,7 +1,7 @@
 .DetailPage-container {
     display: flex;
     flex-flow: column;
-    width: 70%;
+    width: 80%;
     margin: auto;
     margin-top: calc(5rem + 80px);
     text-align: left;

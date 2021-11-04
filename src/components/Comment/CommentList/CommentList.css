@@ -6,3 +6,15 @@
     border-bottom: 1px solid #ddd;
     padding: 1rem;
 }
+.CommentList-post-empty--container {
+    display: flex;
+    justify-content: center;
+    margin-top: 8rem;
+    font-family: "Apple SD Gothic NeoSB";
+    color: #333;
+    font-size: 1.5rem;
+    text-align: center;
+}
+.CommentList-post-empty-text .focus-text {
+    color: #ff5000;
+}
