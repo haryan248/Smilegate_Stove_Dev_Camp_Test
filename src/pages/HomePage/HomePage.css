@@ -1,39 +1,38 @@
 .HomePage-my-profile {
-    background-color: rgb(97, 226, 46);
-    margin-top: calc(5rem + 80px);
-    padding: 1rem;
+    margin-top: 65px;
+    padding: 5rem 5rem 0 5rem;
     display: flex;
     flex-direction: row;
     justify-content: center;
+    overflow: hidden;
+    position: relative;
+    padding-bottom: 3rem;
 }
-.HomePage-profile-image {
-    border: 1px solid;
-    border-radius: 10px;
-    width: 150px;
-    margin-right: 1rem;
-}
+
 .HomePage-profile-detail {
     text-align: left;
 }
-.HomePage-profile-name {
-    font-size: 1.4rem;
-    padding: 1rem;
-}
-.HomePage-profile-text {
-    padding: 1rem;
+.HomePage-banner-text {
+    font-family: "Apple SD Gothic NeoSB";
+    font-size: 4.5rem;
+    padding: 5rem;
+    text-align: center;
 }
 .HomePage-post__list--container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 5rem;
+    padding-top: 3rem;
     margin-bottom: 2rem;
+    box-shadow: 0 -10px 20px rgb(0 0 0 / 5%);
 }
 .HomePage-post--title {
     font-family: "Apple SD Gothic NeoSB";
     font-size: 2rem;
     display: flex;
     justify-content: left;
+    margin-top: 2.5rem;
+    margin-bottom: 2.5rem;
 }
 .HomePage-post-empty--container {
     display: flex;
@@ -78,4 +77,57 @@
 }
 .HomePage-post__list-item--comment {
     font-size: 0.875rem;
+}
+
+@keyframes rectLeftAnimation {
+    from {
+        opacity: 0;
+        transform: rotate(0) translateX(-300px);
+    }
+    to {
+        transform: rotate(-45deg) translateX(0);
+    }
+}
+@keyframes rectRightAnimation {
+    from {
+        opacity: 0;
+        transform: rotate(0) translateX(300px);
+    }
+    to {
+        transform: rotate(45deg) translateX(0);
+    }
+}
+.HomePage-banner-design {
+    background: #ff5000;
+    box-shadow: 0px 20px 50px 0 rgb(0 0 0 / 10%);
+    transform: rotate(-45deg);
+    position: absolute;
+}
+
+.HomePage-banner .type1 {
+    opacity: 0.2;
+    width: 460px;
+    height: 460px;
+    left: -120px;
+    top: -230px;
+    animation: rectLeftAnimation;
+    animation-duration: 1.5s;
+}
+.HomePage-banner .type2 {
+    opacity: 0.9;
+    width: 400px;
+    height: 400px;
+    right: -187px;
+    top: 192px;
+    animation: rectRightAnimation;
+    animation-duration: 3.5s;
+}
+.HomePage-banner .type3 {
+    opacity: 0.5;
+    width: 460px;
+    height: 460px;
+    left: -120px;
+    top: 276px;
+    animation: rectLeftAnimation;
+    animation-duration: 2.5s;
 }

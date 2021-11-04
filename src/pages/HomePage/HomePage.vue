@@ -1,10 +1,13 @@
 <template>
     <div class="HomePage-container">
         <div class="HomePage-my-profile">
-            <div class="HomePage-profile-image">하현준</div>
             <div class="HomePage-profile-detail">
-                <div class="HomePage-profile-name">하현준</div>
-                <div class="HomePage-profile-text">STOVE DEV CAMP 2기 Client(Web) 분야에 지원했습니다.</div>
+                <div class="HomePage-banner">
+                    <div class="HomePage-banner-design type1"></div>
+                    <div class="HomePage-banner-design type2"></div>
+                    <div class="HomePage-banner-design type3"></div>
+                </div>
+                <div class="HomePage-banner-text">블로그에 오신걸 환영합니다.</div>
             </div>
         </div>
 
