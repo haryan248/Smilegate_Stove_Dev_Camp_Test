@@ -22,6 +22,7 @@ button {
     font-family: inherit;
     border: none;
 }
+
 input,
 textarea,
 a {
@@ -34,11 +35,14 @@ textarea {
     resize: none;
     font-family: inherit;
 }
+::selection {
+    background: #f9a73c;
+    color: #fff;
+}
 #app {
     font-family: "Apple SD Gothic NeoR", "Roboto", sans-serif;
     text-align: center;
     color: #333;
-    padding-bottom: 5rem;
 }
 @font-face {
     src: url("./assets/fonts/AppleSDGothicNeoB.ttf");
