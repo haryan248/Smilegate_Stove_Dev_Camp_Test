@@ -7,7 +7,6 @@ const commentStore = {
         blogCommentList: {},
         blogSubCommentList: {},
         commentText: "",
-        updateCommentText: "",
         subCommentText: "",
     },
     getters: {},
@@ -17,55 +16,27 @@ const commentStore = {
             state.commentText = payload;
         },
 
-        MODIFY_UPDATED_COMMENT_TEXT(state, payload) {
-            state.updateCommentText = payload;
-        },
-
         MODIFY_UPDATED_SUB_COMMENT_TEXT(state, payload) {
             state.subCommentText = payload;
         },
 
-        MODIFY_INITIAL_UPDATE_COMMENT_TEXT(state, payload) {
-            state.updateCommentText = payload;
+        SET_BLOG_COMMENT_LIST(state, payload) {
+            state.blogCommentList = payload;
         },
 
-        // 토글 mutation
-        TOGGLE_UPDATE_COMMENT(state, blogCommentId) {
-            state.blogCommentList.forEach((blogCommentItem) => {
-                if (blogCommentItem.comment_id === blogCommentId) {
-                    blogCommentItem.updateStatus = !blogCommentItem.updateStatus;
-                }
-            });
-        },
-
-        TOGGLE_UPDATE_SUB_COMMENT(state, blogSubCommentId) {
-            state.blogSubCommentList.forEach((blogSubCommentItem) => {
-                if (blogSubCommentItem.sub_comment_id === blogSubCommentId) {
-                    blogSubCommentItem.updateStatus = !blogSubCommentItem.updateStatus;
-                }
-            });
-        },
-
-        TOGGLE_REGISTER_SUB_COMMENT(state, blogCommentId) {
-            state.blogCommentList.forEach((blogCommentItem) => {
-                if (blogCommentItem.comment_id === blogCommentId) {
-                    blogCommentItem.registerStatus = !blogCommentItem.registerStatus;
-                }
-            });
+        SET_BLOG_SUB_COMMENT_LIST(state, payload) {
+            state.blogSubCommentList = payload;
         },
     },
     actions: {
         // 게시물 댓글 불러오기
-        async getBlogComment({ state }, blogContentId) {
+        async getBlogComment({ state, rootState }) {
+            const blogContentId = rootState.postStore.blogContentId;
             await axios
                 .get(`${API_SERVER_URL}/blog/${blogContentId}/comment`)
                 .then(({ data }) => {
-                    state.blogCommentList = [...data.data.comment_result].map((item) => {
-                        return { ...item, updateStatus: false, registerStatus: false };
-                    });
-                    state.blogSubCommentList = [...data.data.sub_comment_result].map((item) => {
-                        return { ...item, updateStatus: false };
-                    });
+                    state.blogCommentList = data.data.comment_result;
+                    state.blogSubCommentList = data.data.sub_comment_result;
                 })
                 .catch((error) => {
                     console.log(error.response);
@@ -73,7 +44,8 @@ const commentStore = {
         },
 
         // 댓글 등록
-        async registerComment({ state, dispatch }, blogContentId) {
+        async registerComment({ state, commit, rootState }) {
+            const blogContentId = rootState.postStore.blogContentId;
             await axios
                 .post(
                     `${API_SERVER_URL}/blog/${blogContentId}/comment`,
@@ -85,9 +57,8 @@ const commentStore = {
                         },
                     }
                 )
-                .then(() => {
-                    dispatch("getBlogComment", blogContentId);
-                    dispatch("postStore/getBlogDetail", blogContentId, { root: true });
+                .then(({ data }) => {
+                    commit("SET_BLOG_COMMENT_LIST", data.data.comment_result);
                 })
                 .catch((error) => {
                     console.log(error.response);
@@ -97,37 +68,40 @@ const commentStore = {
         },
 
         // 댓글 수정
-        async updateComment({ state, dispatch, commit }, { blogContentId, blogCommentId }) {
+        async updateComment({ commit, rootState }, { updateCommentText, blogCommentId }) {
+            const blogContentId = rootState.postStore.blogContentId;
+
             await axios
                 .post(
                     `${API_SERVER_URL}/blog/${blogContentId}/update-comment/${blogCommentId}`,
                     {},
                     {
                         params: {
-                            commentText: state.updateCommentText,
+                            commentText: updateCommentText,
                         },
                     }
                 )
-                .then(() => {
-                    dispatch("getBlogComment", blogContentId);
-                    commit("TOGGLE_UPDATE_COMMENT", blogCommentId);
+                .then(({ data }) => {
+                    commit("SET_BLOG_COMMENT_LIST", data.data.comment_result);
                 })
                 .catch((error) => {
                     console.log(error.response);
                 });
         },
 
-        // 댓글 삭제하기
-        async deleteComment({ dispatch }, { blogContentId, deleteCommentId }) {
+        // 댓글 삭제
+        async deleteComment({ commit, rootState }, { deleteCommentId }) {
+            const blogContentId = rootState.postStore.blogContentId;
+
             await axios
                 .delete(`${API_SERVER_URL}/blog/${blogContentId}/comment`, {
                     params: {
                         deleteCommentId: deleteCommentId,
                     },
                 })
-                .then(() => {
-                    dispatch("getBlogComment", blogContentId);
-                    dispatch("postStore/getBlogDetail", blogContentId, { root: true });
+                .then(({ data }) => {
+                    commit("SET_BLOG_SUB_COMMENT_LIST", data.data.sub_comment_result);
+                    commit("SET_BLOG_COMMENT_LIST", data.data.comment_result);
                 })
                 .catch((error) => {
                     console.log(error.response);
@@ -135,7 +109,9 @@ const commentStore = {
         },
 
         // 답글 등록
-        async registerSubComment({ state, dispatch, commit }, { blogContentId, blogCommentId }) {
+        async registerSubComment({ state, commit, rootState }, { blogCommentId }) {
+            const blogContentId = rootState.postStore.blogContentId;
+
             await axios
                 .post(
                     `${API_SERVER_URL}/blog/${blogContentId}/comment/${blogCommentId}`,
@@ -147,10 +123,9 @@ const commentStore = {
                         },
                     }
                 )
-                .then(() => {
-                    dispatch("getBlogComment", blogContentId);
-                    dispatch("postStore/getBlogDetail", blogContentId, { root: true });
-                    commit("TOGGLE_REGISTER_SUB_COMMENT", blogCommentId);
+                .then(({ data }) => {
+                    commit("SET_BLOG_COMMENT_LIST", data.data.comment_result);
+                    commit("SET_BLOG_SUB_COMMENT_LIST", data.data.sub_comment_result);
                     state.subCommentText = "";
                 })
                 .catch((error) => {
@@ -159,21 +134,23 @@ const commentStore = {
         },
 
         // 답글 수정
-        async updateSubComment({ state, dispatch, commit }, { blogContentId, blogCommentId }) {
+        async updateSubComment({ commit, rootState }, { updateCommentText, blogCommentId }) {
+            const blogContentId = rootState.postStore.blogContentId;
+
             await axios
                 .post(
                     `${API_SERVER_URL}/blog/${blogContentId}/update-comment/${blogCommentId}`,
                     {},
                     {
                         params: {
-                            commentText: state.updateCommentText,
+                            commentText: updateCommentText,
                             subCommentId: blogCommentId,
                         },
                     }
                 )
-                .then(() => {
-                    dispatch("getBlogComment", blogContentId);
-                    commit("TOGGLE_UPDATE_SUB_COMMENT", blogCommentId);
+                .then(({ data }) => {
+                    commit("SET_BLOG_COMMENT_LIST", data.data.comment_result);
+                    commit("SET_BLOG_SUB_COMMENT_LIST", data.data.sub_comment_result);
                 })
                 .catch((error) => {
                     console.log(error.response);
@@ -181,17 +158,18 @@ const commentStore = {
         },
 
         // 답글 삭제하기
-        async deleteSubComment({ dispatch }, { blogContentId, deleteSubCommentId }) {
-            console.log(blogContentId, deleteSubCommentId);
+        async deleteSubComment({ commit, rootState }, { deleteSubCommentId }) {
+            const blogContentId = rootState.postStore.blogContentId;
+
             await axios
                 .delete(`${API_SERVER_URL}/blog/${blogContentId}/comment`, {
                     params: {
                         deleteSubCommentId: deleteSubCommentId,
                     },
                 })
-                .then(() => {
-                    dispatch("getBlogComment", blogContentId);
-                    dispatch("postStore/getBlogDetail", blogContentId, { root: true });
+                .then(({ data }) => {
+                    commit("SET_BLOG_COMMENT_LIST", data.data.comment_result);
+                    commit("SET_BLOG_SUB_COMMENT_LIST", data.data.sub_comment_result);
                 })
                 .catch((error) => {
                     console.log(error.response);
