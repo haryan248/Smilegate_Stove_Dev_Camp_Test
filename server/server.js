@@ -29,6 +29,10 @@ const countCommentList = (blogContentId) => {
     });
 };
 
+const filterCommentList = (blogContentId) => {
+    return Comment.filter((commentItem) => commentItem.content_id === blogContentId);
+};
+
 // 블로그 글 등록, 조회, 삭제, 수정 API
 // 글 목록 조회
 app.get("/blog", function (req, res) {
@@ -130,13 +134,15 @@ app.post("/blog/:blogContentId/comment/:blogCommentId?", function (req, res) {
         });
     }
     countCommentList(blogContentId);
+    const comment_result = filterCommentList(blogContentId);
 
-    res.json({ message: "OK" });
+    res.json({ message: "OK", data: { comment_result, sub_comment_result: SubComment } });
 });
 
-// 댓글 수정
+// 댓글, 답글 수정
 app.post("/blog/:blogContentId/update-comment/:commentId", function (req, res) {
     const commentId = req.params.commentId;
+    const blogContentId = req.params.blogContentId;
     const commentText = req.query.commentText;
     const subCommentId = req.query.subCommentId;
     if (subCommentId) {
@@ -154,8 +160,9 @@ app.post("/blog/:blogContentId/update-comment/:commentId", function (req, res) {
             } else return;
         });
     }
+    const comment_result = filterCommentList(blogContentId);
 
-    res.json({ message: "OK" });
+    res.json({ message: "OK", data: { comment_result, sub_comment_result: SubComment } });
 });
 
 // 댓글, 답글 삭제
@@ -179,7 +186,9 @@ app.delete("/blog/:blogContentId/comment", function (req, res) {
     }
     countCommentList(blogContentId);
 
-    res.json({ message: "OK", data: { Comment, SubComment } });
+    const comment_result = filterCommentList(blogContentId);
+
+    res.json({ message: "OK", data: { comment_result, sub_comment_result: SubComment } });
 });
 
 app.listen(3000, () => {
