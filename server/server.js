@@ -32,7 +32,9 @@ const countCommentList = (blogContentId) => {
 const filterCommentList = (blogContentId) => {
     return Comment.filter((commentItem) => commentItem.content_id === blogContentId);
 };
-
+const filterSubCommentList = (blogContentId) => {
+    return SubComment.filter((subCommentItem) => subCommentItem.content_id === blogContentId);
+};
 // 블로그 글 등록, 조회, 삭제, 수정 API
 // 글 목록 조회
 app.get("/blog", function (req, res) {
@@ -109,7 +111,6 @@ app.post("/blog/:blogContentId/comment/:blogCommentId?", function (req, res) {
     const commentText = req.query.commentText;
     const blogContentId = req.params.blogContentId;
     const blogCommentId = req.params.blogCommentId;
-    console.log(userId, commentText);
     const subCommentId = "sub" + +new Date();
     const commentId = String(+new Date());
 
@@ -144,19 +145,19 @@ app.post("/blog/:blogContentId/update-comment/:commentId", function (req, res) {
     const commentId = req.params.commentId;
     const blogContentId = req.params.blogContentId;
     const commentText = req.query.commentText;
-    const subCommentId = req.query.subCommentId;
-    if (subCommentId) {
-        SubComment.forEach((subCommentItem) => {
-            if (subCommentItem.sub_comment_id === subCommentId) {
-                subCommentItem.text = commentText;
-                subCommentItem.updated_at = new Date().toLocaleString();
-            } else return;
-        });
-    } else {
+    const subCommentId = req.query.subCommentId === undefined ? null : req.query.subCommentId;
+    if (subCommentId === null) {
         Comment.forEach((commentItem) => {
             if (commentItem.comment_id === commentId) {
                 commentItem.text = commentText;
                 commentItem.updated_at = new Date().toLocaleString();
+            } else return;
+        });
+    } else {
+        SubComment.forEach((subCommentItem) => {
+            if (subCommentItem.sub_comment_id === subCommentId) {
+                subCommentItem.text = commentText;
+                subCommentItem.updated_at = new Date().toLocaleString();
             } else return;
         });
     }
@@ -175,20 +176,22 @@ app.delete("/blog/:blogContentId/comment", function (req, res) {
     const deleteSubIndex = SubComment.findIndex((subCommentItem) => subCommentItem.sub_comment_id === deleteSubCommentId);
 
     if (deleteSubCommentId === null) {
-        SubComment.forEach((_) => {
-            let deleteTempIndex = SubComment.findIndex((subCommentItem) => subCommentItem.comment_id === deleteCommentId);
-            SubComment.splice(deleteTempIndex, 1);
-        });
-        console.log(SubComment);
+        // 댓글 삭제시 달려 있는 모든 답글 삭제
         Comment.splice(deleteIndex, 1);
+        let SubCommentLength = SubComment.length;
+        for (let i = 0; i < SubCommentLength; i++) {
+            let deleteTempIndex = SubComment.findIndex((commentItem) => commentItem.comment_id === deleteCommentId);
+            if (deleteTempIndex !== -1) SubComment.splice(deleteTempIndex, 1);
+        }
     } else {
         SubComment.splice(deleteSubIndex, 1);
     }
+
     countCommentList(blogContentId);
-
     const comment_result = filterCommentList(blogContentId);
+    const sub_comment_result = filterSubCommentList(blogContentId);
 
-    res.json({ message: "OK", data: { comment_result, sub_comment_result: SubComment } });
+    res.json({ message: "OK", data: { comment_result, sub_comment_result } });
 });
 
 app.listen(3000, () => {
