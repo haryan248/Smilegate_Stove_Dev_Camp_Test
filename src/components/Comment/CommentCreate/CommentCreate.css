@@ -8,7 +8,7 @@
     font-size: 16px;
     width: 100%;
     line-height: 30px;
-    padding: 1rem;
+    padding: 0.6rem 1rem;
     margin-right: 1rem;
     border-radius: 10px;
     border: solid 1px #ddd;
@@ -21,7 +21,7 @@
 .CommentCreate-button {
     border-radius: 10px;
     cursor: pointer;
-    padding: 1rem 1rem 1rem 1rem;
+    padding: 0.6rem 1rem;
     font-size: 1rem;
     font-family: "Apple SD Gothic NeoSB";
     white-space: nowrap;
