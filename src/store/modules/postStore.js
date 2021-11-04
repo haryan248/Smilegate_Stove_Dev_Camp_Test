@@ -52,8 +52,8 @@ const postStore = {
         async getBlogPostData({ state }) {
             await axios
                 .get(`${API_SERVER_URL}/blog`)
-                .then((res) => {
-                    state.blogPosts = res.data;
+                .then(({ data }) => {
+                    state.blogPosts = data.data.post_result;
                 })
                 .catch((error) => {
                     console.log(error.response);
@@ -79,7 +79,7 @@ const postStore = {
             await axios
                 .get(`${API_SERVER_URL}/blog/${state.blogContentId}`)
                 .then(({ data }) => {
-                    state.blogContent = data;
+                    state.blogContent = data.data.content_result;
                 })
                 .catch((error) => {
                     console.log(error.response);
@@ -113,7 +113,7 @@ const postStore = {
         // 블로그 게시물 수정
         async updateBlogData({ state, commit }) {
             await axios
-                .post(
+                .put(
                     `${API_SERVER_URL}/update-blog`,
                     {},
                     {

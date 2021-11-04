@@ -77,7 +77,7 @@ const commentStore = {
             const blogContentId = rootState.postStore.blogContentId;
 
             await axios
-                .post(
+                .put(
                     `${API_SERVER_URL}/blog/${blogContentId}/update-comment/${blogCommentId}`,
                     {},
                     {
@@ -143,7 +143,7 @@ const commentStore = {
             const blogContentId = rootState.postStore.blogContentId;
 
             await axios
-                .post(
+                .put(
                     `${API_SERVER_URL}/blog/${blogContentId}/update-comment/${blogCommentId}`,
                     {},
                     {

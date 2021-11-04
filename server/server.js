@@ -38,7 +38,7 @@ const filterSubCommentList = (blogContentId) => {
 // 블로그 글 등록, 조회, 삭제, 수정 API
 // 글 목록 조회
 app.get("/blog", function (req, res) {
-    res.send(BlogPost);
+    res.send({ message: "OK", data: { post_result: BlogPost } });
 });
 
 // 글 세부 페이지 내용
@@ -48,7 +48,7 @@ app.get("/blog/:blogContentId", function (req, res) {
         if (blogItem.content_id === blogContentId) return blogItem;
     });
     countCommentList(blogContentId);
-    res.send(...result);
+    res.send({ data: { content_result: result[0] } });
 });
 
 // 새로운 글 등록
@@ -72,7 +72,7 @@ app.post("/blog", function (req, res) {
 });
 
 // 글 수정
-app.post("/update-blog", function (req, res) {
+app.put("/update-blog", function (req, res) {
     const title = req.query.title;
     const description = req.query.description;
     const blogContentId = req.query.blogContentId;
@@ -141,7 +141,7 @@ app.post("/blog/:blogContentId/comment/:blogCommentId?", function (req, res) {
 });
 
 // 댓글, 답글 수정
-app.post("/blog/:blogContentId/update-comment/:commentId", function (req, res) {
+app.put("/blog/:blogContentId/update-comment/:commentId", function (req, res) {
     const commentId = req.params.commentId;
     const blogContentId = req.params.blogContentId;
     const commentText = req.query.commentText;
