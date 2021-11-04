@@ -6,7 +6,7 @@
             <div class="DetailPage-management">
                 <div class="DetailPage-create__date">{{ blogContent.created_at }}</div>
                 <div>
-                    <button class="DetailPage-modify__button" @click="updateBlogPost(blogContentId)">수정</button>
+                    <button class="DetailPage-modify__button" @click="UPDATE_BLOG_POST(blogContentId)">수정</button>
                     <button class="DetailPage-delete__button" @click="deleteBlogPost(blogContentId)">삭제</button>
                 </div>
             </div>
@@ -48,7 +48,7 @@ export default {
         }),
     },
     methods: {
-        ...postHelper.mapMutations(["updateBlogPost"]),
+        ...postHelper.mapMutations(["UPDATE_BLOG_POST"]),
         ...postHelper.mapActions(["getBlogDetail", "deleteBlogPost"]),
         ...commentHelper.mapActions(["getBlogComment"]),
     },

@@ -13,24 +13,24 @@ const commentStore = {
     getters: {},
     mutations: {
         // v-model data 관리
-        modifyCommentText(state, payload) {
+        MODIFY_COMMENT_TEXT(state, payload) {
             state.commentText = payload;
         },
 
-        modifyUpdateCommentText(state, payload) {
+        MODIFY_UPDATED_COMMENT_TEXT(state, payload) {
             state.updateCommentText = payload;
         },
 
-        modifyUpdateSubCommentText(state, payload) {
+        MODIFY_UPDATED_SUB_COMMENT_TEXT(state, payload) {
             state.subCommentText = payload;
         },
 
-        modifyInitialUpdateCommentText(state, payload) {
+        MODIFY_INITIAL_UPDATE_COMMENT_TEXT(state, payload) {
             state.updateCommentText = payload;
         },
 
         // 토글 mutation
-        toggleUpdateComment(state, blogCommentId) {
+        TOGGLE_UPDATE_COMMENT(state, blogCommentId) {
             state.blogCommentList.forEach((blogCommentItem) => {
                 if (blogCommentItem.comment_id === blogCommentId) {
                     blogCommentItem.updateStatus = !blogCommentItem.updateStatus;
@@ -38,14 +38,15 @@ const commentStore = {
             });
         },
 
-        toggleUpdateSubComment(state, blogSubCommentId) {
+        TOGGLE_UPDATE_SUB_COMMENT(state, blogSubCommentId) {
             state.blogSubCommentList.forEach((blogSubCommentItem) => {
                 if (blogSubCommentItem.sub_comment_id === blogSubCommentId) {
                     blogSubCommentItem.updateStatus = !blogSubCommentItem.updateStatus;
                 }
             });
         },
-        toggleRegisterSubComment(state, blogCommentId) {
+
+        TOGGLE_REGISTER_SUB_COMMENT(state, blogCommentId) {
             state.blogCommentList.forEach((blogCommentItem) => {
                 if (blogCommentItem.comment_id === blogCommentId) {
                     blogCommentItem.registerStatus = !blogCommentItem.registerStatus;
@@ -109,7 +110,7 @@ const commentStore = {
                 )
                 .then(() => {
                     dispatch("getBlogComment", blogContentId);
-                    commit("toggleUpdateComment", blogCommentId);
+                    commit("TOGGLE_UPDATE_COMMENT", blogCommentId);
                 })
                 .catch((error) => {
                     console.log(error.response);
@@ -149,7 +150,7 @@ const commentStore = {
                 .then(() => {
                     dispatch("getBlogComment", blogContentId);
                     dispatch("postStore/getBlogDetail", blogContentId, { root: true });
-                    commit("toggleRegisterSubComment", blogCommentId);
+                    commit("TOGGLE_REGISTER_SUB_COMMENT", blogCommentId);
                     state.subCommentText = "";
                 })
                 .catch((error) => {
@@ -172,7 +173,7 @@ const commentStore = {
                 )
                 .then(() => {
                     dispatch("getBlogComment", blogContentId);
-                    commit("toggleUpdateSubComment", blogCommentId);
+                    commit("TOGGLE_UPDATE_SUB_COMMENT", blogCommentId);
                 })
                 .catch((error) => {
                     console.log(error.response);

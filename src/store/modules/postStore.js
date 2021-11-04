@@ -13,23 +13,23 @@ const postStore = {
     getters: {},
     mutations: {
         // v-model data 관리
-        updateBlogTitle(state, payload) {
+        UPDATE_BLOG_TITLE(state, payload) {
             state.blogTitle = payload;
         },
 
-        updateBlogDescription(state, payload) {
+        UPDATE_BLOG_DESCRIPTION(state, payload) {
             state.blogDescription = payload;
         },
 
         // 글 수정하기
-        updateBlogPost(_, blogContentId) {
+        UPDATE_BLOG_POST(_, blogContentId) {
             router.push({
                 path: `/blog/write/${blogContentId}`,
             });
         },
 
         // 데이터 초기화하기
-        resetInput(state) {
+        RESET_INPUT(state) {
             state.blogTitle = "";
             state.blogDescription = "";
         },
@@ -82,7 +82,7 @@ const postStore = {
                     {},
                     {
                         params: {
-                            user_id: 1,
+                            userId: 1,
                             title: state.blogTitle,
                             description: state.blogDescription,
                         },
@@ -90,7 +90,7 @@ const postStore = {
                 )
                 .then((res) => {
                     replaceId = res.data.data;
-                    commit("resetInput");
+                    commit("RESET_INPUT");
                 })
                 .then(() => router.replace(`/blog/detail/${replaceId}`))
                 .catch((error) => {
@@ -113,7 +113,7 @@ const postStore = {
                     }
                 )
                 .then(() => router.replace(`/blog/detail/${blogContentId}`))
-                .then(() => commit("resetInput"))
+                .then(() => commit("RESET_INPUT"))
                 .catch((error) => {
                     console.log(error.response);
                 });

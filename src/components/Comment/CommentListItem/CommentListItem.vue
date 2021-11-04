@@ -5,7 +5,7 @@
                 {{ blogComment.updated_at === null ? blogComment.created_at : blogComment.updated_at }}
             </div>
             <div v-if="!blogComment.updateStatus">
-                <button class="CommentListItem-modify__button" @click="toggleUpdateComment(blogComment.comment_id)">수정</button>
+                <button class="CommentListItem-modify__button" @click="TOGGLE_UPDATE_COMMENT(blogComment.comment_id)">수정</button>
                 <button
                     class="CommentListItem-delete__button"
                     @click="deleteComment({ blogContentId: blogComment.content_id, deleteCommentId: blogComment.comment_id })"
@@ -21,7 +21,7 @@
         <button
             v-if="!blogComment.registerStatus"
             class="CommentListItem-register__subcomment"
-            @click="toggleRegisterSubComment(blogComment.comment_id)"
+            @click="TOGGLE_REGISTER_SUB_COMMENT(blogComment.comment_id)"
         >
             답글 달기
         </button>
@@ -65,7 +65,7 @@ export default {
     },
     methods: {
         ...commentHelper.mapActions(["deleteComment"]),
-        ...commentHelper.mapMutations(["toggleUpdateComment", "toggleRegisterSubComment"]),
+        ...commentHelper.mapMutations(["TOGGLE_UPDATE_COMMENT", "TOGGLE_REGISTER_SUB_COMMENT"]),
         ...postHelper.mapActions(["getBlogDetail"]),
     },
 };

@@ -43,7 +43,7 @@ export default {
                 return this.blogTitle;
             },
             set(value) {
-                this.updateBlogTitle(value);
+                this.UPDATE_BLOG_TITLE(value);
             },
         },
 
@@ -52,12 +52,12 @@ export default {
                 return this.blogDescription;
             },
             set(value) {
-                this.updateBlogDescription(value);
+                this.UPDATE_BLOG_DESCRIPTION(value);
             },
         },
     },
     methods: {
-        ...postHelper.mapMutations(["updateBlogTitle", "updateBlogDescription", "resetInput"]),
+        ...postHelper.mapMutations(["UPDATE_BLOG_TITLE", "UPDATE_BLOG_DESCRIPTION", "RESET_INPUT"]),
         ...postHelper.mapActions(["getBlogWriteData", "updateBlogData", "postBlogData"]),
     },
 };

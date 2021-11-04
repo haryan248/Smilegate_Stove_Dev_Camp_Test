@@ -14,7 +14,9 @@
                     <div>{{ blogSubCommentItem.updated_at === null ? blogSubCommentItem.created_at : blogSubCommentItem.updated_at }}</div>
                 </div>
                 <div v-if="!blogSubCommentItem.updateStatus">
-                    <button class="SubCommentListItem-modify__button" @click="toggleUpdateSubComment(blogSubCommentItem.sub_comment_id)">수정</button>
+                    <button class="SubCommentListItem-modify__button" @click="TOGGLE_UPDATE_SUB_COMMENT(blogSubCommentItem.sub_comment_id)">
+                        수정
+                    </button>
                     <button
                         class="SubCommentListItem-delete__button"
                         @click="deleteSubComment({ blogContentId: blogComment.content_id, deleteSubCommentId: blogSubCommentItem.sub_comment_id })"
@@ -25,7 +27,7 @@
             </div>
             <div class="SubCommentListItem-text">{{ blogSubCommentItem.text }}</div>
         </div>
-        <!-- <button class="SubCommentListItem-register__subcomment" @click="toggleRegisterSubComment(blogComment.comment_id)">댓글 달기</button> -->
+        <!-- <button class="SubCommentListItem-register__subcomment" @click="TOGGLE_REGISTER_SUB_COMMENT(blogComment.comment_id)">댓글 달기</button> -->
     </div>
 </template>
 <script>
@@ -47,7 +49,7 @@ export default {
     },
     methods: {
         ...commentHelper.mapActions(["deleteSubComment"]),
-        ...commentHelper.mapMutations(["toggleUpdateSubComment", "toggleRegisterSubComment"]),
+        ...commentHelper.mapMutations(["TOGGLE_UPDATE_SUB_COMMENT", "TOGGLE_REGISTER_SUB_COMMENT"]),
     },
 };
 </script>
