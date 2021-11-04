@@ -2,7 +2,7 @@
     <div>
         <div v-if="isRegister">
             <div class="CommentCreate-comment__input--container">
-                <input
+                <textarea
                     class="CommentCreate-comment__input"
                     type="text"
                     :placeholder="isSubComment ? '답글을 달아주세요.' : '댓글을 남겨보세요.'"
@@ -11,18 +11,26 @@
                 />
                 <button
                     class="CommentCreate-comment__button CommentCreate-button"
-                    @click="isSubComment ? registerSubComment({ blogContentId, blogCommentId }) : registerComment(blogContentId)"
+                    @click="isSubComment ? registerSubCommentHandler(blogCommentId) : registerComment()"
                 >
                     댓글 작성
                 </button>
+                <button
+                    class="CommentCreate-cancel__button CommentCreate-button"
+                    v-if="isSubComment"
+                    @click="toggleRegisterSubComment(blogCommentId)"
+                >
+                    취소
+                </button>
             </div>
-            <button v-if="isSubComment" @click="toggleRegisterSubComment(blogCommentId)">취소</button>
         </div>
         <div v-else class="CommentCreate-comment__input--container">
-            <input class="CommentCreate-comment__input" type="text" v-model="updateCommentTextValue" />
+            <textarea class="CommentCreate-comment__input" type="text" v-model="updateCommentText" />
             <button
                 class="CommentCreate-comment__button CommentCreate-button"
-                @click="isSubComment ? updateSubComment({ blogContentId, blogCommentId }) : updateComment({ blogContentId, blogCommentId })"
+                @click="
+                    isSubComment ? updateSubCommentHandler(updateCommentText, blogCommentId) : updateCommentHandler(updateCommentText, blogCommentId)
+                "
             >
                 수정 완료
             </button>
@@ -47,19 +55,19 @@ export default {
         isSubComment: Boolean,
         blogCommentText: String,
         blogCommentId: String,
-        blogContentId: String,
+        toggleUpdateComment: Function,
+        toggleUpdateSubComment: Function,
+        toggleRegisterSubComment: Function,
     },
     data() {
-        return {};
-    },
-    created() {
-        this.modifyInitialUpdateCommentText(this.blogCommentText);
+        return {
+            updateCommentText: this.blogCommentText,
+        };
     },
     computed: {
         ...commentHelper.mapState({
             commentText: (state) => state.commentText,
             subCommentText: (state) => state.subCommentText,
-            updateCommentText: (state) => state.updateCommentText,
         }),
 
         commentTextValue: {
@@ -67,7 +75,7 @@ export default {
                 return this.commentText;
             },
             set(value) {
-                this.modifyCommentText(value);
+                this.MODIFY_COMMENT_TEXT(value);
             },
         },
 
@@ -76,31 +84,29 @@ export default {
                 return this.subCommentText;
             },
             set(value) {
-                this.modifyUpdateSubCommentText(value);
-            },
-        },
-
-        updateCommentTextValue: {
-            get() {
-                return this.updateCommentText;
-            },
-            set(value) {
-                this.modifyUpdateCommentText(value);
+                this.MODIFY_UPDATED_SUB_COMMENT_TEXT(value);
             },
         },
     },
     methods: {
         ...postHelper.mapActions(["getBlogDetail"]),
-        ...commentHelper.mapMutations([
-            "modifyInitialUpdateCommentText",
-            "modifyCommentText",
-            "modifyUpdateCommentText",
-            "modifyUpdateSubCommentText",
-            "toggleUpdateComment",
-            "toggleUpdateSubComment",
-            "toggleRegisterSubComment",
-        ]),
+        ...commentHelper.mapMutations(["MODIFY_COMMENT_TEXT", "MODIFY_UPDATED_SUB_COMMENT_TEXT"]),
         ...commentHelper.mapActions(["getBlogComment", "registerComment", "registerSubComment", "updateComment", "updateSubComment"]),
+
+        registerSubCommentHandler(blogCommentId) {
+            this.registerSubComment({ blogCommentId });
+            this.toggleRegisterSubComment();
+        },
+
+        updateCommentHandler(updateCommentText, blogCommentId) {
+            this.updateComment({ updateCommentText, blogCommentId });
+            this.toggleUpdateComment();
+        },
+
+        updateSubCommentHandler(updateCommentText, blogCommentId) {
+            this.updateSubComment({ updateCommentText, blogCommentId });
+            this.toggleUpdateSubComment();
+        },
     },
 };
 </script>
