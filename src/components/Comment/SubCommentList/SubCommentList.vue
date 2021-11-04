@@ -2,7 +2,12 @@
     <div>
         <div class="SubComment-container" v-for="blogSubCommentItem in filteredBlogSubCommentList" :key="blogSubCommentItem.sub_comment_id">
             <div class="SubComment-right__arrow">↳</div>
-            <SubCommentListItem :blogComment="blogComment" :blogSubCommentItem="blogSubCommentItem" />
+            <SubCommentListItem
+                :toggleRegisterSubComment="toggleRegisterSubComment"
+                :toggleUpdateComment="toggleUpdateComment"
+                :blogComment="blogComment"
+                :blogSubCommentItem="blogSubCommentItem"
+            />
         </div>
     </div>
 </template>
@@ -14,6 +19,8 @@ export default {
     props: {
         blogComment: Object,
         filteredBlogSubCommentList: Array,
+        toggleRegisterSubComment: Function,
+        toggleUpdateComment: Function,
     },
     data() {
         return {};

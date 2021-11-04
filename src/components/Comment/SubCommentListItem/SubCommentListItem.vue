@@ -1,11 +1,13 @@
 <template>
     <div class="SubCommentListItem-container">
-        <div v-if="blogSubCommentItem.updateStatus">
+        <!-- 답글 수정시 Input -->
+        <div v-if="toggleUpdateSubCommentStatus">
             <CommentCreate
+                :toggleUpdateComment="toggleUpdateComment"
+                :toggleUpdateSubComment="toggleUpdateSubComment"
                 :isSubComment="true"
                 :blogCommentText="blogSubCommentItem.text"
                 :blogCommentId="blogSubCommentItem.sub_comment_id"
-                :blogContentId="blogSubCommentItem.content_id"
             />
         </div>
         <div v-else>
@@ -13,13 +15,11 @@
                 <div class="SubCommentListItem-recent__update__date">
                     <div>{{ blogSubCommentItem.updated_at === null ? blogSubCommentItem.created_at : blogSubCommentItem.updated_at }}</div>
                 </div>
-                <div v-if="!blogSubCommentItem.updateStatus">
-                    <button class="SubCommentListItem-modify__button" @click="TOGGLE_UPDATE_SUB_COMMENT(blogSubCommentItem.sub_comment_id)">
-                        수정
-                    </button>
+                <div v-if="!toggleUpdateSubCommentStatus">
+                    <button class="SubCommentListItem-modify__button" @click="toggleUpdateSubComment()">수정</button>
                     <button
                         class="SubCommentListItem-delete__button"
-                        @click="deleteSubComment({ blogContentId: blogComment.content_id, deleteSubCommentId: blogSubCommentItem.sub_comment_id })"
+                        @click="deleteSubComment({ deleteSubCommentId: blogSubCommentItem.sub_comment_id })"
                     >
                         삭제
                     </button>
@@ -27,7 +27,7 @@
             </div>
             <div class="SubCommentListItem-text">{{ blogSubCommentItem.text }}</div>
         </div>
-        <!-- <button class="SubCommentListItem-register__subcomment" @click="TOGGLE_REGISTER_SUB_COMMENT(blogComment.comment_id)">댓글 달기</button> -->
+        <!-- <button class="SubCommentListItem-register__subcomment" @click="toggleRegisterSubComment()">댓글 달기</button> -->
     </div>
 </template>
 <script>
@@ -40,16 +40,23 @@ export default {
     props: {
         blogComment: Object,
         blogSubCommentItem: Object,
+        toggleRegisterSubComment: Function,
+        toggleUpdateComment: Function,
     },
     components: {
         CommentCreate,
     },
     data() {
-        return {};
+        return {
+            toggleUpdateSubCommentStatus: false,
+        };
     },
     methods: {
         ...commentHelper.mapActions(["deleteSubComment"]),
-        ...commentHelper.mapMutations(["TOGGLE_UPDATE_SUB_COMMENT", "TOGGLE_REGISTER_SUB_COMMENT"]),
+
+        toggleUpdateSubComment() {
+            this.toggleUpdateSubCommentStatus = !this.toggleUpdateSubCommentStatus;
+        },
     },
 };
 </script>
