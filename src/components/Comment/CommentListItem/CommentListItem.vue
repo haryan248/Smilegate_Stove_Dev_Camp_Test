@@ -4,33 +4,42 @@
             <div class="CommentListItem-recent__update__date">
                 {{ blogComment.updated_at === null ? blogComment.created_at : blogComment.updated_at }}
             </div>
-            <div v-if="!blogComment.updateStatus">
-                <button class="CommentListItem-modify__button" @click="TOGGLE_UPDATE_COMMENT(blogComment.comment_id)">수정</button>
-                <button
-                    class="CommentListItem-delete__button"
-                    @click="deleteComment({ blogContentId: blogComment.content_id, deleteCommentId: blogComment.comment_id })"
-                >
-                    삭제
-                </button>
+            <div v-if="!toggleUpdateCommentStatus">
+                <button class="CommentListItem-modify__button" @click="toggleUpdateComment()">수정</button>
+                <button class="CommentListItem-delete__button" @click="deleteComment({ deleteCommentId: blogComment.comment_id })">삭제</button>
             </div>
         </div>
-        <div v-if="blogComment.updateStatus">
-            <CommentCreate :blogCommentText="blogComment.text" :blogCommentId="blogComment.comment_id" :blogContentId="blogComment.content_id" />
+        <!-- 댓글 수정 시 Input -->
+        <div v-if="toggleUpdateCommentStatus">
+            <CommentCreate
+                :toggleUpdateComment="toggleUpdateComment"
+                :blogCommentText="blogComment.text"
+                :blogCommentId="blogComment.comment_id"
+                :blogContentId="blogComment.content_id"
+            />
         </div>
         <div v-else class="CommentListItem-text">{{ blogComment.text }}</div>
-        <button
-            v-if="!blogComment.registerStatus"
-            class="CommentListItem-register__subcomment"
-            @click="TOGGLE_REGISTER_SUB_COMMENT(blogComment.comment_id)"
-        >
+        <button v-if="!toggleRegisterSubCommentStatus" class="CommentListItem-register__subcomment" @click="toggleRegisterSubComment()">
             답글 달기
         </button>
 
         <div v-if="filteredBlogSubCommentList.length > 0">
-            <SubCommentList :blogComment="blogComment" :filteredBlogSubCommentList="filteredBlogSubCommentList" />
+            <SubCommentList
+                :toggleRegisterSubComment="toggleRegisterSubComment"
+                :toggleUpdateComment="toggleUpdateComment"
+                :blogComment="blogComment"
+                :filteredBlogSubCommentList="filteredBlogSubCommentList"
+            />
         </div>
-        <div v-if="blogComment.registerStatus">
-            <CommentCreate :isRegister="true" :isSubComment="true" :blogContentId="blogComment.content_id" :blogCommentId="blogComment.comment_id" />
+        <!-- 답글 작성  Input -->
+        <div v-if="toggleRegisterSubCommentStatus">
+            <CommentCreate
+                :toggleRegisterSubComment="toggleRegisterSubComment"
+                :isRegister="true"
+                :isSubComment="true"
+                :blogContentId="blogComment.content_id"
+                :blogCommentId="blogComment.comment_id"
+            />
         </div>
     </div>
 </template>
@@ -49,7 +58,10 @@ export default {
         blogComment: Object,
     },
     data() {
-        return {};
+        return {
+            toggleUpdateCommentStatus: false,
+            toggleRegisterSubCommentStatus: false,
+        };
     },
     components: {
         CommentCreate,
@@ -65,8 +77,16 @@ export default {
     },
     methods: {
         ...commentHelper.mapActions(["deleteComment"]),
-        ...commentHelper.mapMutations(["TOGGLE_UPDATE_COMMENT", "TOGGLE_REGISTER_SUB_COMMENT"]),
+        // ...commentHelper.mapMutations(["TOGGLE_UPDATE_COMMENT", "TOGGLE_REGISTER_SUB_COMMENT"]),
         ...postHelper.mapActions(["getBlogDetail"]),
+
+        toggleUpdateComment() {
+            this.toggleUpdateCommentStatus = !this.toggleUpdateCommentStatus;
+        },
+
+        toggleRegisterSubComment() {
+            this.toggleRegisterSubCommentStatus = !this.toggleRegisterSubCommentStatus;
+        },
     },
 };
 </script>

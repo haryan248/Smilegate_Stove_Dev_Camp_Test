@@ -1,6 +1,6 @@
 <template>
     <div>
-        <CommentCreate :isRegister="true" :blogContentId="blogContentId" />
+        <CommentCreate :isRegister="true" />
         <div class="CommentList-container">
             <div class="CommentList-comment__list" v-for="blogComment in blogCommentList" :key="blogComment.comment_id">
                 <CommentListItem :blogComment="blogComment" />
@@ -17,9 +17,6 @@ const commentHelper = createNamespacedHelpers("commentStore");
 
 export default {
     name: "CommentList",
-    props: {
-        blogContentId: String,
-    },
     components: {
         CommentListItem,
         CommentCreate,
