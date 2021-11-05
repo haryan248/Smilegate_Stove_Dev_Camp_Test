@@ -1,0 +1,21 @@
+.PostListItem-title {
+    font-size: 2rem;
+    font-weight: bold;
+}
+.PostListItem-text {
+    font-size: 1rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-bottom: 0.3rem;
+}
+.PostListItem-status {
+    display: flex;
+}
+.PostListItem-register-date {
+    font-size: 0.875rem;
+    margin-right: 1rem;
+}
+.PostListItem-comment {
+    font-size: 0.875rem;
+}

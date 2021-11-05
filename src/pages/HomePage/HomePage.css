@@ -24,37 +24,6 @@
 .HomePage-post-empty--container .focus-text {
     color: #ff5000;
 }
-.HomePage-post__list {
-    width: 80%;
-    border-bottom: 1px solid #eee;
-    margin: 1rem;
-    padding: 1rem;
-    text-align: left;
-    transition: 0.5s;
-    cursor: pointer;
-}
-.HomePage-post__list:hover {
-    border-radius: 10px;
-    box-shadow: 0px 40px 50px 0 rgb(0 0 0 / 10%);
-}
-.HomePage-post__list-item--title {
-    font-size: 2rem;
-    font-weight: bold;
-}
-.HomePage-post__list-item--text {
-    font-size: 1rem;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    margin-bottom: 0.3rem;
-}
-.HomePage-post__list-item--status {
-    display: flex;
-}
-.HomePage-post__list-item--register-date {
-    font-size: 0.875rem;
-    margin-right: 1rem;
-}
-.HomePage-post__list-item--comment {
-    font-size: 0.875rem;
+.HomePage-post-list {
+    width: 100%;
 }

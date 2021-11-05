@@ -1,0 +1,20 @@
+.PostList-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.PostList-post__list {
+    width: 80%;
+    border-bottom: 1px solid #eee;
+    margin: 1rem;
+    padding: 1rem;
+    text-align: left;
+    transition: 0.5s;
+    cursor: pointer;
+}
+.PostList-post__list:hover {
+    border-radius: 10px;
+    box-shadow: 0px 40px 50px 0 rgb(0 0 0 / 10%);
+}
+

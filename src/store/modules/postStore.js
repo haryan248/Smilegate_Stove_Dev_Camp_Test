@@ -11,7 +11,11 @@ const postStore = {
         blogContent: {},
         blogContentId: "",
     },
-    getters: {},
+    getters: {
+        getPostCount: (state) => {
+            return state.blogPosts.length;
+        },
+    },
     mutations: {
         // v-model data 관리
         UPDATE_BLOG_TITLE(state, payload) {
