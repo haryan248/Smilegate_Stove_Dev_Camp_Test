@@ -51,3 +51,43 @@ package.json
 -   [ ] RSS
 
 [스토브\_데브\_캠프\_위키](https://github.com/haryan248/Smilegate_Stove_Dev_Camp_Test/wiki)
+
+---
+
+## 기능별 화면
+
+### 글 쓰기
+
+<p align="center">
+<img width="80%" src="https://user-images.githubusercontent.com/51049245/140444667-3856e86d-9423-488c-9526-5ec6651fe7ef.gif"/>
+</p>
+
+### 글 수정하기
+
+<p align="center">
+<img width="80%" src="https://user-images.githubusercontent.com/51049245/140445242-99212da2-6591-42b1-a7ef-dcfc39cec72f.gif"/>
+</p>
+
+### 글 삭제하기
+
+<p align="center">
+<img width="80%" src="https://user-images.githubusercontent.com/51049245/140446254-9d3bc348-3be2-4e2c-aef2-eeded30f1231.gif"/>
+</p>
+
+### 댓글, 답글 작성하기
+
+<p align="center">
+<img width="80%" src="https://user-images.githubusercontent.com/51049245/140445612-825c1f39-4d2e-4892-93ef-6adc17533260.gif"/>
+</p>
+
+### 댓글, 답글 수정하기
+
+<p align="center">
+<img width="80%" src="https://user-images.githubusercontent.com/51049245/140445896-9fb20c01-c3b2-4f70-ac43-efa0c0f5b114.gif"/>
+</p>
+
+### 댓글, 답글 삭제하기
+
+<p align="center">
+<img width="80%" src="https://user-images.githubusercontent.com/51049245/140446059-42c54476-d96c-4827-a409-2b684c0798dd.gif"/>
+</p>
