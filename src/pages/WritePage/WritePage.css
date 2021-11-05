@@ -6,6 +6,12 @@
     margin-top: calc(5rem + 80px);
     box-sizing: border-box;
 }
+.WritePage-main-title {
+    font-family: "Apple SD Gothic NeoSB";
+    text-align: left;
+    font-size: 3rem;
+    margin-bottom: 2rem;
+}
 .WritePage-title,
 .WritePage-main__text {
     text-align: left;
