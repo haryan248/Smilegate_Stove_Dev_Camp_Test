@@ -10,7 +10,7 @@
                     :placeholder="isSubComment ? '답글을 달아주세요.' : '댓글을 남겨보세요.'"
                     :value="isSubComment ? subCommentTextValue : commentTextValue"
                     @input="(e) => (isSubComment ? (subCommentTextValue = e.target.value) : (commentTextValue = e.target.value))"
-                    @blur="checkCommentValidation"
+                    @blur="isSubComment ? checkSubCommentValidation() : checkCommentValidation()"
                 />
                 <button
                     class="CommentCreate-comment__button CommentCreate-button"
@@ -27,9 +27,7 @@
                     취소
                 </button>
             </div>
-            <div v-if="isSubComment ? subCommentValidationStatus : commentValidationStatus" class="CommentCreate-error-message">
-                최소 1자 이상 입력해주세요.
-            </div>
+            <div v-if="checkCommentInput" class="CommentCreate-error-message">최소 1자 이상 입력해주세요.</div>
         </div>
         <div v-else class="CommentCreate-comment__input--container">
             <!-- when update subcomment  -->
@@ -96,6 +94,9 @@ export default {
             set(value) {
                 this.MODIFY_UPDATED_SUB_COMMENT_TEXT(value);
             },
+        },
+        checkCommentInput() {
+            return this.isSubComment ? this.subCommentValidationStatus : this.commentValidationStatus;
         },
     },
     methods: {
