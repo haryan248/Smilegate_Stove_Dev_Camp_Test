@@ -64,8 +64,8 @@ const postStore = {
         async getBlogWriteData({ state }) {
             await axios
                 .get(`${API_SERVER_URL}/blog/${state.blogContentId}`)
-                .then((res) => {
-                    const { title, description } = res.data;
+                .then(({ data }) => {
+                    const { title, description } = data.data.content_result;
                     state.blogTitle = title;
                     state.blogDescription = description;
                 })
