@@ -1,0 +1,71 @@
+.Banner-container {
+    margin-top: 65px;
+    padding: 5rem 5rem 0 5rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    padding-bottom: 3rem;
+}
+.Banner-banner-wrapper {
+    text-align: left;
+}
+.Banner-banner-text {
+    font-family: "Apple SD Gothic NeoSB";
+    font-size: 4.5rem;
+    padding: 5rem;
+    text-align: center;
+}
+@keyframes rectLeftAnimation {
+    from {
+        opacity: 0;
+        transform: rotate(0) translateX(-300px);
+    }
+    to {
+        transform: rotate(-45deg) translateX(0);
+    }
+}
+@keyframes rectRightAnimation {
+    from {
+        opacity: 0;
+        transform: rotate(0) translateX(300px);
+    }
+    to {
+        transform: rotate(45deg) translateX(0);
+    }
+}
+.Banner-banner-design {
+    background: #ff5000;
+    box-shadow: 0px 20px 50px 0 rgb(0 0 0 / 10%);
+    transform: rotate(-45deg);
+    position: absolute;
+}
+
+.Banner-banner .type1 {
+    opacity: 0.2;
+    width: 460px;
+    height: 460px;
+    left: -120px;
+    top: -230px;
+    animation: rectLeftAnimation;
+    animation-duration: 1.5s;
+}
+.Banner-banner .type2 {
+    opacity: 0.9;
+    width: 400px;
+    height: 400px;
+    right: -187px;
+    top: 192px;
+    animation: rectRightAnimation;
+    animation-duration: 3.5s;
+}
+.Banner-banner .type3 {
+    opacity: 0.5;
+    width: 460px;
+    height: 460px;
+    left: -120px;
+    top: 276px;
+    animation: rectLeftAnimation;
+    animation-duration: 2.5s;
+}
