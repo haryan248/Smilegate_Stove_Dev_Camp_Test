@@ -1,6 +1,8 @@
 <template>
     <div>
         <div class="WritePage-container">
+            <div class="WritePage-main-title">{{ isUpdate ? "글 수정하기" : "글 쓰기" }}</div>
+
             <div>
                 <p class="WritePage-title">제목</p>
                 <input
